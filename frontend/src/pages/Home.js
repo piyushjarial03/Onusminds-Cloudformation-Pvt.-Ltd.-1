@@ -131,12 +131,6 @@ const WhoWeAre = () => {
 const CoreCapabilities = () => {
   const { content, services } = useSite();
   const navigate = useNavigate();
-  const counters = {};
-  const numbered = services.map((s) => {
-    const prefix = s.discipline === "IT Services" ? "IT" : "DM";
-    counters[prefix] = (counters[prefix] || 0) + 1;
-    return { ...s, code: `${prefix}-0${counters[prefix]}` };
-  });
   const firstIT = services.find((s) => s.discipline === "IT Services");
   const firstDM = services.find((s) => s.discipline !== "IT Services");
 
@@ -165,15 +159,14 @@ const CoreCapabilities = () => {
         </Reveal>
 
         <ul className="mt-14 border-t border-[#0A1633]/10">
-          {numbered.map((s, i) => (
+          {services.map((s, i) => (
             <Reveal key={s.slug} delay={i * 0.06}>
               <li>
                 <button
                   data-testid={`capability-row-${s.slug}`}
                   onClick={() => navigate(`/services/${s.slug}`)}
-                  className="group grid w-full grid-cols-[auto_1fr_auto] items-start gap-5 md:gap-10 border-b border-[#0A1633]/10 py-8 text-left"
+                  className="group grid w-full grid-cols-[1fr_auto] items-start gap-5 border-b border-[#0A1633]/10 py-8 text-left"
                 >
-                  <span className="pt-1 font-mono text-xs font-semibold text-[#2563EB]">{s.code}</span>
                   <span>
                     <span className="block font-display text-xl md:text-2xl font-bold tracking-tight group-hover:text-[#2563EB] transition-colors duration-300">
                       {s.title}
