@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowUpRight, Mail, Phone, Linkedin } from "lucide-react";
 import { NAV, CONTACT, SOCIALS } from "../data/site";
 import { Reveal } from "./Motion";
+import { useSite, whatsappLink } from "../context/SiteContext";
 
 const WhatsAppIcon = ({ className = "h-5 w-5" }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -11,8 +12,17 @@ const WhatsAppIcon = ({ className = "h-5 w-5" }) => (
 
 export const Footer = () => {
   const navigate = useNavigate();
+  const { content, services: siteServices } = useSite();
+  const C = {
+    email: content.contact_email,
+    phone: content.contact_phone,
+    phoneHref: `tel:${(content.contact_phone || "").replace(/[^+\d]/g, "")}`,
+    whatsapp: whatsappLink(content.whatsapp_number),
+    whatsappNumber: content.whatsapp_number,
+    linkedin: CONTACT["linkedin"],
+  };
   const company = NAV.find((n) => n.label === "Company");
-  const services = NAV.find((n) => n.label === "Services");
+  const servicesCol = { children: siteServices.map((s) => ({ label: s.title, to: `/services/${s.slug}` })) };
   const resources = NAV.find((n) => n.label === "Resources");
 
   return (
@@ -44,7 +54,7 @@ export const Footer = () => {
             <div className="mt-6 flex items-center gap-3">
               <a
                 data-testid="footer-linkedin-icon"
-                href={CONTACT.linkedin}
+                href={C.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="OnusMinds on LinkedIn"
@@ -54,32 +64,32 @@ export const Footer = () => {
               </a>
               <a
                 data-testid="footer-whatsapp-icon"
-                href={CONTACT.whatsapp}
+                href={C.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`WhatsApp us on ${CONTACT.whatsappNumber}`}
+                aria-label={`WhatsApp us on ${C.whatsappNumber}`}
                 className="group inline-flex h-11 items-center gap-2.5 border border-white/15 px-4 text-white/60 hover:text-white hover:border-[#25D366] hover:bg-[#25D366]/10 transition-colors duration-300"
               >
                 <WhatsAppIcon className="h-5 w-5" />
-                <span className="text-xs font-semibold tracking-wider">{CONTACT.whatsappNumber}</span>
+                <span className="text-xs font-semibold tracking-wider">{C.whatsappNumber}</span>
               </a>
             </div>
             <div className="mt-6 flex flex-col gap-3 text-sm">
-              <a data-testid="footer-email" href={`mailto:${CONTACT.email}`} className="flex items-center gap-2.5 text-white/60 hover:text-white transition-colors">
-                <Mail className="h-4 w-4 text-[#0055FF]" /> {CONTACT.email}
+              <a data-testid="footer-email" href={`mailto:${C.email}`} className="flex items-center gap-2.5 text-white/60 hover:text-white transition-colors">
+                <Mail className="h-4 w-4 text-[#0055FF]" /> {C.email}
               </a>
-              <a data-testid="footer-phone" href={CONTACT.phoneHref} className="flex items-center gap-2.5 text-white/60 hover:text-white transition-colors">
-                <Phone className="h-4 w-4 text-[#0055FF]" /> {CONTACT.phone}
+              <a data-testid="footer-phone" href={C.phoneHref} className="flex items-center gap-2.5 text-white/60 hover:text-white transition-colors">
+                <Phone className="h-4 w-4 text-[#0055FF]" /> {C.phone}
               </a>
-              <a data-testid="footer-whatsapp" href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 text-white/60 hover:text-white transition-colors">
-                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> WhatsApp: {CONTACT.whatsappNumber}
+              <a data-testid="footer-whatsapp" href={C.whatsapp} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 text-white/60 hover:text-white transition-colors">
+                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> WhatsApp: {C.whatsappNumber}
               </a>
             </div>
           </div>
 
           {[
             { title: "Company", items: company.children },
-            { title: "Services", items: services.children },
+            { title: "Services", items: servicesCol.children },
             { title: "Resources", items: resources.children },
           ].map((col) => (
             <div key={col.title} className="md:col-span-2">
@@ -112,7 +122,7 @@ export const Footer = () => {
         </div>
 
         <div className="mt-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/40">
-          <p data-testid="footer-copyright">© {new Date().getFullYear()} OnusMinds. All rights reserved.</p>
+          <p data-testid="footer-copyright">{content.footer_credit}</p>
           <p>Two disciplines. One engagement.</p>
         </div>
       </div>

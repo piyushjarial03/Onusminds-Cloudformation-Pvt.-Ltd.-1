@@ -208,7 +208,7 @@ async def get_current_admin(request: Request) -> dict:
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
     user = await db.users.find_one({"id": payload["sub"]}, {"_id": 0, "password_hash": 0})
-    if not user or user.get("role") != "admin":
+    if not user or user.get("role") not in ("admin", "owner"):
         raise HTTPException(status_code=401, detail="Not authorized")
     return user
 
@@ -282,6 +282,7 @@ async def create_lead(payload: LeadCreate):
         "contact_method": payload.contact_method,
         "message": payload.message.strip(),
         "read": False,
+        "status": "new",
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.leads.insert_one(doc)
@@ -320,7 +321,14 @@ async def list_leads(admin=Depends(get_current_admin)):
 
 @api_router.patch("/admin/leads/{lead_id}")
 async def update_lead(lead_id: str, payload: dict, admin=Depends(get_current_admin)):
-    await db.leads.update_one({"id": lead_id}, {"$set": {"read": bool(payload.get("read", True))}})
+    update = {}
+    if payload.get("status") in ("new", "in_progress", "completed"):
+        update["status"] = payload["status"]
+        update["read"] = payload["status"] != "new"
+    if "read" in payload:
+        update["read"] = bool(payload["read"])
+    if update:
+        await db.leads.update_one({"id": lead_id}, {"$set": update})
     return {"status": "ok"}
 
 
@@ -432,6 +440,188 @@ async def serve_file(path: str):
     return RawResponse(content=data, media_type=record.get("content_type") or content_type)
 
 
+# ---------- Site content ----------
+DEFAULT_CONTENT = {
+    "logo_url": "",
+    "hero_eyebrow": "IT Services & Consulting / Digital Marketing",
+    "hero_title": "Cloud Infrastructure.\nScale with ease,\nperform with speed.\nBuilt to grow\nwith the cloud.",
+    "hero_text": "OnusMinds unites two disciplines under one engagement — the engineers who keep your platform alive, and the marketers who make it matter.",
+    "overview_title": "Two disciplines.\nOne engagement.",
+    "capabilities_title": "What we do\nexceptionally well",
+    "request_title": "Tell us what\nyou're building",
+    "request_text": "One form, one business day. A senior engineer or strategist — never a salesperson — replies with a point of view on your problem.",
+    "contact_email": "info@onusminds.com",
+    "contact_phone": "+91 78077 22158",
+    "whatsapp_number": "+91 78077 22158",
+    "nav_cta": "Start a conversation",
+    "footer_credit": "© 2026 OnusMinds. All rights reserved.",
+}
+
+
+@api_router.get("/content")
+async def get_content():
+    doc = await db.site_content.find_one({"key": "main"}, {"_id": 0})
+    return doc["data"] if doc else DEFAULT_CONTENT
+
+
+@api_router.put("/admin/content")
+async def put_content(payload: dict, admin=Depends(get_current_admin)):
+    clean = {k: str(v) for k, v in payload.items() if k in DEFAULT_CONTENT}
+    await db.site_content.update_one({"key": "main"}, {"$set": {"data": clean}}, upsert=True)
+    merged = dict(DEFAULT_CONTENT)
+    merged.update(clean)
+    return merged
+
+
+# ---------- Services ----------
+DEFAULT_SERVICES = [
+    {
+        "slug": "infrastructure-cloud", "title": "Infrastructure & Cloud", "discipline": "IT Services",
+        "tagline": "Platforms engineered to never blink.",
+        "short": "Architecture reviews, cloud migration, and cost cleanup for teams running on AWS, Azure, or GCP.",
+        "description": [
+            "Your infrastructure is the silent partner in every campaign, launch and transaction. We design cloud environments on AWS, Azure and GCP that scale elastically with demand — and fail gracefully when the unexpected happens.",
+            "From greenfield architecture to brownfield migration, our engineers work in audited, documented, infrastructure-as-code engagements. Nothing lives in someone's head; everything lives in version control.",
+        ],
+        "deliverables": ["Cloud architecture & landing zones", "Migration & modernisation programs", "Kubernetes & container orchestration", "Infrastructure as Code (Terraform)", "CI/CD pipeline engineering", "Cost optimisation & FinOps reviews"],
+        "outcomes": ["99.95% uptime track record", "Up to 40% cloud cost reduction", "Deploys measured in minutes, not days"],
+    },
+    {
+        "slug": "managed-it-support", "title": "Managed IT Support", "discipline": "IT Services",
+        "tagline": "A follow-the-sun safety net for your stack.",
+        "short": "Day-to-day helpdesk, endpoint monitoring, and patching so nothing depends on one in-house person.",
+        "description": [
+            "Downtime doesn't keep office hours, and neither do we. Our managed support practice watches your systems around the clock across three time zones, resolving most incidents before your users ever notice.",
+            "Beyond firefighting, we run the unglamorous discipline that prevents fires: patch cadences, backup verification, capacity planning and blameless postmortems that turn every incident into a hardening exercise.",
+        ],
+        "deliverables": ["24/7 monitoring & alerting", "15-minute critical incident SLA", "Service desk & end-user support", "Patch & vulnerability management", "Backup & disaster recovery drills", "Quarterly service reviews"],
+        "outcomes": ["15-min critical response SLA", "Proactive resolution of 80% of incidents", "Blameless postmortem culture"],
+    },
+    {
+        "slug": "seo-content-strategy", "title": "SEO & Content Strategy", "discipline": "Digital Marketing",
+        "tagline": "Organic growth, engineered in the codebase.",
+        "short": "Technical SEO fixes, keyword mapping, and an editorial calendar built around what your buyers search.",
+        "description": [
+            "Search performance is won in the codebase as much as in the copy. Our strategists sit inside the engineering sprint — Core Web Vitals, crawl budgets and structured data ship as pull requests, not slide decks.",
+            "On top of that technical foundation, we build editorial engines: topic clusters mapped to intent, a publishing cadence your team can actually sustain, and measurement tied to pipeline rather than vanity rankings.",
+        ],
+        "deliverables": ["Technical SEO audits & fixes", "Keyword & intent mapping", "Editorial calendar & content ops", "Digital PR & link acquisition", "Structured data & schema", "Organic performance dashboards"],
+        "outcomes": ["Compounding organic traffic", "Rankings tied to revenue, not vanity", "Content velocity your team can sustain"],
+    },
+    {
+        "slug": "paid-media-performance", "title": "Paid Media & Performance", "discipline": "Digital Marketing",
+        "tagline": "Every rupee accountable. Every click measured.",
+        "short": "Search and social campaigns managed to a cost-per-lead target, not a vanity impression count.",
+        "description": [
+            "Paid media should be an investment with a statement, not an expense with a hope. We plan, launch and optimise campaigns across Google, Meta, LinkedIn and programmatic with creative testing built into the operating rhythm.",
+            "Attribution is where most agencies go quiet; it's where we start. Server-side tracking, clean UTM governance and weekly budget reallocation mean your spend flows to what actually converts.",
+        ],
+        "deliverables": ["Paid search & shopping campaigns", "Paid social & programmatic", "Landing page CRO", "Server-side tracking & attribution", "Creative testing frameworks", "Weekly budget reallocation"],
+        "outcomes": ["ROAS reported weekly, not monthly", "Creative tested in structured sprints", "Full-funnel attribution clarity"],
+    },
+]
+
+
+@api_router.get("/services")
+async def list_services():
+    return await db.services.find({"visible": True}, {"_id": 0}).sort("order", 1).to_list(100)
+
+
+@api_router.get("/admin/services")
+async def admin_list_services(admin=Depends(get_current_admin)):
+    return await db.services.find({}, {"_id": 0}).sort("order", 1).to_list(100)
+
+
+@api_router.put("/admin/services/bulk")
+async def bulk_services(payload: dict, admin=Depends(get_current_admin)):
+    items = payload.get("services", [])
+    kept_ids = []
+    for i, item in enumerate(items):
+        title = (item.get("title") or "").strip()
+        if not title:
+            continue
+        doc = {
+            "title": title,
+            "discipline": item.get("discipline") or "IT Services",
+            "short": item.get("short") or "",
+            "tagline": item.get("tagline") or item.get("short") or "",
+            "description": item.get("description") or ([item.get("short")] if item.get("short") else []),
+            "deliverables": item.get("deliverables") or [],
+            "outcomes": item.get("outcomes") or [],
+            "visible": bool(item.get("visible", True)),
+            "order": i + 1,
+        }
+        sid = item.get("id")
+        existing = await db.services.find_one({"id": sid}) if sid else None
+        if existing:
+            doc["slug"] = existing.get("slug") or slugify(title)
+            await db.services.update_one({"id": sid}, {"$set": doc})
+        else:
+            sid = str(uuid.uuid4())
+            base = slugify(title)
+            slug = base
+            n = 1
+            while await db.services.find_one({"slug": slug}):
+                n += 1
+                slug = f"{base}-{n}"
+            doc.update({"id": sid, "slug": slug})
+            await db.services.insert_one(doc)
+        kept_ids.append(sid)
+    await db.services.delete_many({"id": {"$nin": kept_ids}})
+    return await db.services.find({}, {"_id": 0}).sort("order", 1).to_list(100)
+
+
+# ---------- Stats & team ----------
+@api_router.get("/admin/stats")
+async def admin_stats(admin=Depends(get_current_admin)):
+    leads = await db.leads.find({}, {"_id": 0, "status": 1}).to_list(5000)
+    total = len(leads)
+    completed = sum(1 for l in leads if l.get("status") == "completed")
+    attention = sum(1 for l in leads if l.get("status", "new") in ("new", "in_progress"))
+    active_services = await db.services.count_documents({"visible": True})
+    return {"total": total, "attention": attention, "completed": completed, "active_services": active_services}
+
+
+class TeamCreate(BaseModel):
+    name: str
+    email: EmailStr
+    password: str
+    role: str = "admin"
+
+
+@api_router.get("/admin/team")
+async def list_team(admin=Depends(get_current_admin)):
+    return await db.users.find({}, {"_id": 0, "password_hash": 0}).to_list(100)
+
+
+@api_router.post("/admin/team")
+async def create_team_member(payload: TeamCreate, admin=Depends(get_current_admin)):
+    email = payload.email.lower().strip()
+    if await db.users.find_one({"email": email}):
+        raise HTTPException(status_code=409, detail="An account with this email already exists")
+    if len(payload.password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
+    doc = {
+        "id": str(uuid.uuid4()),
+        "email": email,
+        "name": payload.name.strip(),
+        "role": payload.role if payload.role in ("admin", "owner") else "admin",
+        "password_hash": hash_password(payload.password),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.users.insert_one(doc)
+    doc.pop("password_hash")
+    return doc
+
+
+@api_router.delete("/admin/team/{user_id}")
+async def delete_team_member(user_id: str, admin=Depends(get_current_admin)):
+    if user_id == admin["id"]:
+        raise HTTPException(status_code=400, detail="You cannot remove your own account")
+    await db.users.delete_one({"id": user_id})
+    return {"status": "ok"}
+
+
 # ---------- Health ----------
 @api_router.get("/")
 async def root():
@@ -455,7 +645,7 @@ async def seed_admin():
     existing = await db.users.find_one({"email": email})
     if existing is None:
         await db.users.insert_one({
-            "id": str(uuid.uuid4()), "email": email, "name": "OnusMinds Admin",
+            "id": str(uuid.uuid4()), "email": email, "name": "Piyush Jarial",
             "role": "admin", "password_hash": hash_password(ADMIN_PASSWORD),
             "created_at": datetime.now(timezone.utc).isoformat(),
         })
@@ -502,6 +692,21 @@ async def seed_news():
         await db.news.insert_one(doc)
 
 
+async def seed_content():
+    if not await db.site_content.find_one({"key": "main"}):
+        await db.site_content.insert_one({"key": "main", "data": DEFAULT_CONTENT})
+
+
+async def seed_services():
+    if await db.services.count_documents({}) > 0:
+        return
+    for i, s in enumerate(DEFAULT_SERVICES):
+        doc = dict(s)
+        doc.update({"id": str(uuid.uuid4()), "visible": True, "order": i + 1,
+                    "created_at": datetime.now(timezone.utc).isoformat()})
+        await db.services.insert_one(doc)
+
+
 @app.on_event("startup")
 async def startup():
     await db.users.create_index("email", unique=True)
@@ -509,6 +714,8 @@ async def startup():
     await db.news.create_index("slug", unique=True)
     await seed_admin()
     await seed_news()
+    await seed_content()
+    await seed_services()
     try:
         await asyncio.to_thread(init_storage)
         logger.info("Object storage initialized")

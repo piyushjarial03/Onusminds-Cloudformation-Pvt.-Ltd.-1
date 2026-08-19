@@ -4,8 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, ArrowDown, ShieldCheck, TrendingUp, Megaphone, Cloud } from "lucide-react";
 import { Reveal, MaskedLines, FadeIn, Marquee } from "../components/Motion";
 import { RequestWorkForm } from "../components/RequestWorkForm";
-import { SERVICES } from "../data/services";
-import { CONTACT } from "../data/site";
+import { useSite, whatsappLink } from "../context/SiteContext";
 
 const HERO_IMG = "https://images.pexels.com/photos/30547584/pexels-photo-30547584.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
@@ -18,9 +17,11 @@ const CAPABILITIES = [
 
 const Hero = () => {
   const ref = useRef(null);
+  const { content } = useSite();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const heroLines = content.hero_title.split("\n").filter(Boolean);
 
   return (
     <section ref={ref} data-testid="hero-section" className="relative flex min-h-[100svh] items-end overflow-hidden grain">
@@ -31,14 +32,14 @@ const Hero = () => {
 
       <motion.div style={{ opacity }} className="relative mx-auto w-full max-w-[1600px] px-6 md:px-10 pb-14 md:pb-24 pt-32 md:pt-40">
         <FadeIn delay={0.1}>
-          <p className="mb-8 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
-            <span className="h-px w-12 bg-[#0055FF]" /> IT Services &amp; Consulting / Digital Marketing
+          <p data-testid="hero-eyebrow" className="mb-8 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
+            <span className="h-px w-12 bg-[#0055FF]" /> {content.hero_eyebrow}
           </p>
         </FadeIn>
 
         <MaskedLines
           data-testid="hero-headline"
-          lines={["Cloud", "Infrastructure.", "Scale with ease,", "perform with speed.", "Built to grow", "with the cloud."]}
+          lines={heroLines}
           className="font-display font-black uppercase tracking-tighter leading-[0.92] text-[8.5vw] sm:text-[7vw] lg:text-[6vw]"
           lineClassName="pb-1"
           delay={0.25}
@@ -47,16 +48,16 @@ const Hero = () => {
         <div className="mt-10 flex flex-col md:flex-row md:items-end md:justify-between gap-10">
           <FadeIn delay={0.9}>
             <p data-testid="hero-subcopy" className="max-w-md text-base md:text-lg leading-relaxed text-white/60">
-              OnusMinds unites two disciplines under one engagement — the engineers who keep your platform alive, and the marketers who make it matter.
+              {content.hero_text}
             </p>
           </FadeIn>
           <FadeIn delay={1.05} className="flex items-center gap-4">
             <button
               data-testid="hero-cta-button"
-              onClick={() => window.open(CONTACT.whatsapp, "_blank", "noopener,noreferrer")}
+              onClick={() => window.open(whatsappLink(content.whatsapp_number), "_blank", "noopener,noreferrer")}
               className="group inline-flex items-center gap-3 bg-[#0055FF] px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300"
             >
-              Start a conversation
+              {content.nav_cta}
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </button>
             <button
@@ -74,12 +75,14 @@ const Hero = () => {
   );
 };
 
-const Approach = () => (
+const Approach = () => {
+  const { content } = useSite();
+  return (
   <section id="approach" data-testid="approach-section" className="relative mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-32">
     <Reveal>
       <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">The Approach</p>
-      <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">
-        Two disciplines.<br />One engagement.
+      <h2 data-testid="overview-title" className="font-display text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter whitespace-pre-line">
+        {content.overview_title}
       </h2>
     </Reveal>
 
@@ -96,7 +99,7 @@ const Approach = () => (
           body: "SEO, paid media and demand engines — the growth layer your platform deserves. Campaigns measured against revenue, content that compounds, and attribution that tells the truth.",
         },
       ].map((ch, i) => (
-        <div key={ch.num} className={`relative grid grid-cols-1 md:grid-cols-12 gap-8 items-start ${i % 2 ? "" : ""}`}>
+        <div key={ch.num} className="relative grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           <span className="pointer-events-none absolute -top-10 md:-top-24 left-0 font-display text-[6rem] md:text-[16rem] font-black leading-none text-outline-soft select-none">
             {ch.num}
           </span>
@@ -114,14 +117,17 @@ const Approach = () => (
       ))}
     </div>
   </section>
-);
+  );
+};
 
-const Capabilities = () => (
+const Capabilities = () => {
+  const { content } = useSite();
+  return (
   <section data-testid="capabilities-section" className="mx-auto max-w-[1600px] px-6 md:px-10 py-12 md:py-24 border-t border-white/10">
     <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-14">
       <div>
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Core Capabilities</p>
-        <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tighter">What we do<br />exceptionally well</h2>
+        <h2 data-testid="capabilities-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tighter whitespace-pre-line">{content.capabilities_title}</h2>
       </div>
       <p className="max-w-sm text-sm leading-relaxed text-white/50">
         Four practices, one integrated team. Every capability is delivered in-house — no hand-offs, no subcontractors.
@@ -144,10 +150,12 @@ const Capabilities = () => (
       ))}
     </div>
   </section>
-);
+  );
+};
 
 const ServicesIndex = () => {
   const navigate = useNavigate();
+  const { services } = useSite();
   return (
     <section data-testid="services-index-section" className="border-t border-white/10">
       <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-16 md:pt-40 pb-10">
@@ -157,7 +165,7 @@ const ServicesIndex = () => {
         </Reveal>
       </div>
       <ul>
-        {SERVICES.map((s, i) => (
+        {services.map((s, i) => (
           <li key={s.slug} className="border-t border-white/10 last:border-b">
             <button
               data-testid={`service-row-${s.slug}`}
@@ -182,17 +190,19 @@ const ServicesIndex = () => {
   );
 };
 
-const RequestSection = () => (
+const RequestSection = () => {
+  const { content } = useSite();
+  return (
   <section data-testid="request-section" className="relative mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-32">
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
       <div className="lg:col-span-5">
         <Reveal>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Request Work</p>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.95]">
-            Tell us what<br />you're building
+          <h2 data-testid="request-title" className="font-display text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.95] whitespace-pre-line">
+            {content.request_title}
           </h2>
-          <p className="mt-8 max-w-md text-base leading-relaxed text-white/60">
-            One form, one business day. A senior engineer or strategist — never a salesperson — replies with a point of view on your problem.
+          <p data-testid="request-text" className="mt-8 max-w-md text-base leading-relaxed text-white/60">
+            {content.request_text}
           </p>
         </Reveal>
       </div>
@@ -203,13 +213,15 @@ const RequestSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default function Home() {
+  const { services } = useSite();
   return (
     <main>
       <Hero />
-      <Marquee items={SERVICES.flatMap((s) => [s.title, "OnusMinds"])} />
+      <Marquee items={services.flatMap((s) => [s.title, "OnusMinds"])} />
       <Approach />
       <Capabilities />
       <ServicesIndex />

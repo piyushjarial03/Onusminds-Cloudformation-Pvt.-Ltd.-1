@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CONTACT } from "../data/site";
+import { useSite, whatsappLink } from "../context/SiteContext";
 
 const WhatsAppGlyph = ({ className = "h-6 w-6" }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -7,13 +7,15 @@ const WhatsAppGlyph = ({ className = "h-6 w-6" }) => (
   </svg>
 );
 
-export const FloatingWhatsApp = () => (
+export const FloatingWhatsApp = () => {
+  const { content } = useSite();
+  return (
   <motion.a
     data-testid="floating-whatsapp"
-    href={CONTACT.whatsapp}
+    href={whatsappLink(content.whatsapp_number)}
     target="_blank"
     rel="noopener noreferrer"
-    aria-label={`Chat with OnusMinds on WhatsApp at ${CONTACT.whatsappNumber}`}
+    aria-label={`Chat with OnusMinds on WhatsApp at ${content.whatsapp_number}`}
     initial={{ opacity: 0, scale: 0.6, y: 24 }}
     animate={{ opacity: 1, scale: 1, y: 0 }}
     transition={{ delay: 1.4, duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
@@ -29,4 +31,5 @@ export const FloatingWhatsApp = () => (
       Chat with us
     </span>
   </motion.a>
-);
+  );
+};

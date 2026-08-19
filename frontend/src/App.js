@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Lenis from "lenis";
 import { Toaster } from "sonner";
 import { AuthProvider } from "./context/AuthContext";
+import { SiteProvider } from "./context/SiteContext";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
 import { FloatingWhatsApp } from "./components/FloatingWhatsApp";
@@ -42,6 +43,7 @@ function App() {
 
   return (
     <AuthProvider>
+      <SiteProvider>
       <BrowserRouter>
         <ScrollManager />
         <div className="min-h-screen bg-[#050505] text-white font-body">
@@ -63,6 +65,7 @@ function App() {
           <Toaster theme="dark" position="bottom-left" />
         </div>
       </BrowserRouter>
+      </SiteProvider>
     </AuthProvider>
   );
 }

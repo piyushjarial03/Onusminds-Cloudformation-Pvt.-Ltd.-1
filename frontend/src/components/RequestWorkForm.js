@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
 import { api, formatApiError } from "../lib/api";
-import { SERVICES } from "../data/services";
 
 const inputCls =
   "w-full bg-white/[0.03] border border-white/10 px-4 py-3.5 text-sm text-white placeholder:text-white/30 focus:border-[#0055FF] focus:outline-none transition-colors duration-300";
@@ -54,10 +53,11 @@ export const RequestWorkForm = ({ defaultService = "" }) => {
           <label htmlFor="rw-service" className={labelCls}>Service required</label>
           <select id="rw-service" data-testid="rw-service" required value={form.service} onChange={set("service")} className={inputCls}>
             <option value="" disabled>Choose a service</option>
-            {SERVICES.map((s) => (
-              <option key={s.slug} value={s.title}>{s.title}</option>
-            ))}
-            <option value="Not sure yet">Not sure yet</option>
+            <option>IT Services &amp; Consulting</option>
+            <option>Digital Marketing</option>
+            <option>Website Development</option>
+            <option>Branding</option>
+            <option>Other</option>
           </select>
         </div>
         <div className="md:col-span-2">

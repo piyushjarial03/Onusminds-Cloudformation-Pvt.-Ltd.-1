@@ -2,17 +2,18 @@ import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { ArrowUpRight, Check } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { Reveal } from "../components/Motion";
-import { getService, SERVICES } from "../data/services";
+import { useSite } from "../context/SiteContext";
 
 const IMG = "https://images.pexels.com/photos/37730212/pexels-photo-37730212.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
 export default function ServiceDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const service = getService(slug);
+  const { services } = useSite();
+  const service = services.find((s) => s.slug === slug);
   if (!service) return <Navigate to="/" replace />;
 
-  const others = SERVICES.filter((s) => s.slug !== slug).slice(0, 3);
+  const others = services.filter((s) => s.slug !== slug).slice(0, 3);
 
   return (
     <main data-testid={`service-page-${slug}`}>

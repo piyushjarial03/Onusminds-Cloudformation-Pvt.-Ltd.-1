@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDown, Menu, X, ArrowUpRight } from "lucide-react";
 import { NAV } from "../data/site";
+import { useSite } from "../context/SiteContext";
+import { fileUrl } from "../lib/api";
 
 const Dropdown = ({ item }) => {
   const [open, setOpen] = useState(false);
@@ -57,6 +59,12 @@ export const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { services, content } = useSite();
+  const navItems = NAV.map((item) =>
+    item.label === "Services"
+      ? { ...item, children: services.map((s) => ({ label: s.title, to: `/services/${s.slug}`, meta: s.discipline })) }
+      : item
+  );
 
   useEffect(() => {
     setMobileOpen(false);
@@ -77,13 +85,16 @@ export const Navigation = () => {
       }`}
     >
       <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 md:px-10 h-[72px]">
-        <Link to="/" data-testid="nav-logo" className="font-display text-xl md:text-2xl font-black tracking-tighter uppercase">
+        <Link to="/" data-testid="nav-logo" className="flex items-center gap-3 font-display text-xl md:text-2xl font-black tracking-tighter uppercase">
+          {content.logo_url ? (
+            <img src={fileUrl(content.logo_url)} alt="OnusMinds" className="h-9 w-9 object-contain" />
+          ) : null}
           Onus<span className="text-[#0055FF]">Minds</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center">
-            {NAV.map((item) =>
+            {navItems.map((item) =>
               item.children ? (
                 <Dropdown key={item.label} item={item} />
               ) : (
@@ -107,7 +118,7 @@ export const Navigation = () => {
             onClick={() => navigate("/contact")}
             className="group hidden sm:inline-flex items-center gap-2 border border-white/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-widest hover:bg-[#0055FF] hover:border-[#0055FF] transition-colors duration-300"
           >
-            Start a conversation
+            {content.nav_cta}
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </button>
           <button
@@ -127,7 +138,7 @@ export const Navigation = () => {
         }`}
       >
         <ul className="px-6 py-4 space-y-1">
-          {NAV.map((item) =>
+          {navItems.map((item) =>
             item.children ? (
               <li key={item.label}>
                 <button
@@ -164,7 +175,7 @@ export const Navigation = () => {
               onClick={() => navigate("/contact")}
               className="w-full bg-[#0055FF] px-5 py-3 text-xs font-semibold uppercase tracking-widest"
             >
-              Start a conversation
+              {content.nav_cta}
             </button>
           </li>
         </ul>
