@@ -33,6 +33,7 @@ export default function AdminLogin() {
       <div className="w-full max-w-md border border-white/10 bg-white/[0.02] p-10">
         <p className="font-display text-2xl font-black uppercase tracking-tighter">
           Onus<span className="text-[#0055FF]">Minds</span>
+          <span className="block text-[9px] font-semibold tracking-[0.25em] text-white/50 normal-case">Cloudformation Pvt. Ltd.</span>
         </p>
         <p className="mt-2 text-xs uppercase tracking-widest text-white/40">Admin access</p>
         <form data-testid="admin-login-form" onSubmit={submit} className="mt-8 space-y-4">

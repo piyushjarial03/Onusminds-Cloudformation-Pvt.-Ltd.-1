@@ -89,7 +89,10 @@ export const Navigation = () => {
           {content.logo_url ? (
             <img src={fileUrl(content.logo_url)} alt="OnusMinds" className="h-9 w-9 object-contain" />
           ) : null}
-          Onus<span className="text-[#0055FF]">Minds</span>
+          <span className="leading-none">
+            Onus<span className="text-[#0055FF]">Minds</span>
+            <span className="block text-[8px] md:text-[9px] font-semibold tracking-[0.25em] text-white/50 normal-case">Cloudformation Pvt. Ltd.</span>
+          </span>
         </Link>
 
         <nav aria-label="Primary" className="hidden lg:block">

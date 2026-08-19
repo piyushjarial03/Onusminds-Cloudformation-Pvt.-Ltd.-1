@@ -47,6 +47,7 @@ export const Footer = () => {
           <div className="col-span-2 md:col-span-4">
             <p className="font-display text-2xl font-black uppercase tracking-tighter">
               Onus<span className="text-[#0055FF]">Minds</span>
+              <span className="block text-[10px] font-semibold tracking-[0.25em] text-white/50 normal-case">Cloudformation Pvt. Ltd.</span>
             </p>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">
               Two disciplines. One engagement. Infrastructure that holds, marketing that moves — under one roof.
