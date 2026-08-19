@@ -1,0 +1,116 @@
+{
+  "theme": "dark",
+  "typography": {
+    "headings": {
+      "font_family": "Outfit, sans-serif",
+      "scale": "text-4xl md:text-5xl lg:text-6xl+",
+      "weight": "font-black to font-light (use extreme contrast)",
+      "letter_spacing": "tracking-tighter",
+      "rules": "NEVER use Inter or generic sans for headings. Apply kinetic, masked line-by-line reveal for hero."
+    },
+    "body": {
+      "font_family": "Manrope, sans-serif",
+      "scale": "text-base md:text-lg",
+      "weight": "font-normal",
+      "line_height": "leading-relaxed"
+    }
+  },
+  "colors": {
+    "primary": "#0A0A0A",
+    "secondary": "#FFFFFF",
+    "accent": "#0055FF",
+    "background": "#050505",
+    "surface": "#121212",
+    "border": "rgba(255, 255, 255, 0.1)",
+    "rules": "Strict Dark Mode (Electric & Neon / Luxury hybrid). No muddy greys. High-contrast white text. Use #050505 for main background to give infinite depth. Accent colors used extremely sparingly for interaction highlights."
+  },
+  "visual_enhancers": {
+    "surfaces": [
+      {
+        "element": "Sticky Header / Dropdowns",
+        "style": "Crystal Glassmorphism: backdrop-blur-2xl bg-black/60 with 1px border-white/10 bottom border. CRITICAL: DO NOT use complete transparent backgrounds for dropdowns; use solid dark bg (bg-zinc-950) if blur isn't enough."
+      },
+      {
+        "element": "Core Capability Cards",
+        "style": "Neo-brutalist tech borders: bg-white/[0.02] border border-white/10 hover:border-white/30 transition-colors duration-300. Layered ambient shadows."
+      }
+    ],
+    "motion": [
+      {
+        "element": "Hero Heading",
+        "library": "framer-motion",
+        "behavior": "Masked line-by-line reveal. Wrap individual lines in overflow-hidden divs, animate text from y: '100%' to 0 with custom ease [0.19, 1, 0.22, 1]."
+      },
+      {
+        "element": "Services Marquee",
+        "library": "framer-motion",
+        "behavior": "Extremely slow, relentless editorial drift. High contrast, large outline text (text-transparent stroke-white)."
+      },
+      {
+        "element": "Scroll Parallax",
+        "library": "framer-motion (useScroll, useTransform)",
+        "behavior": "Subtle y-axis translation for background elements as the user scrolls."
+      }
+    ]
+  },
+  "layouts": {
+    "hero": "Full-bleed, 100vh. Kinetic typography over a deep, dark abstract background. Top-right 'Start a conversation' button.",
+    "approach_manifesto": "Numbered chapters ('Two disciplines. One engagement.'). Vertical editorial layout. Use text-8xl watermark numbers (text-white/5) positioned absolutely behind the main text.",
+    "core_capabilities": "Bento Grid Protocol Mode A (Tetris Grid). Asymmetrical spans (col-span-12 md:col-span-8 vs col-span-4). Wide gap-8.",
+    "footer": "Massive py-32 padding. Multi-column grid. Giant brand logo or 'Start a conversation' CTA text (text-[10vw]) at the very bottom."
+  },
+  "components": [
+    {
+      "name": "Navigation",
+      "path": "frontend/src/components/Navigation.js",
+      "instructions": "Sticky nav with hover dropdown menus. Desktop must show full links. Accessible via keyboard. High contrast dropdown backgrounds (e.g., bg-zinc-950 border border-zinc-800)."
+    },
+    {
+      "name": "NewsAdmin",
+      "path": "frontend/src/components/admin/NewsAdmin.js",
+      "instructions": "Dashboard interface for CMS. Strict grid hierarchy, flat surfaces, sharp edges, tight gaps. Include image upload functionality."
+    }
+  ],
+  "accessibility": {
+    "contrast": "APCA & WCAG AA minimum 4.5:1. Never use dark text on dark backgrounds.",
+    "motion": "Respect prefers-reduced-motion media query.",
+    "testing": "All interactive elements MUST have data-testid attributes (e.g., data-testid='hero-cta-button')."
+  },
+  "media": {
+    "image_urls": [
+      {
+        "category": "Hero / Abstract Tech",
+        "url": "https://images.pexels.com/photos/30547584/pexels-photo-30547584.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Abstract futuristic cyber landscape with digital matrix"
+      },
+      {
+        "category": "IT Services / Infrastructure",
+        "url": "https://images.pexels.com/photos/37730212/pexels-photo-37730212.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Close-up of server racks in a data center"
+      },
+      {
+        "category": "About / Team Working",
+        "url": "https://images.pexels.com/photos/8117436/pexels-photo-8117436.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Colleagues engage in a lively discussion during a team meeting"
+      }
+    ],
+    "rules": "Max mobile height 80vh. Use bg-black/50 minimum overlay on hero images to maintain absolute text contrast."
+  },
+  "3d_libraries": {
+    "recommended": "framer-motion",
+    "instructions": "Prioritize framer-motion for the parallax/3D hero moment using scroll-linked 3D transforms (rotateX/rotateY). Avoid heavy WebGL unless specifically modeling a 3D asset."
+  },
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Install and use '@studio-freight/react-lenis' for smooth momentum scrolling.",
+    "Install and use 'framer-motion' for all kinetic reveals and micro-interactions.",
+    "Install and use 'lucide-react' for icons.",
+    "Avoid generic 'AI slop' design. Ensure high visual tension, extreme typography contrast, and editorial asymmetry.",
+    "Do not center-align everything; use explicit left-alignment for modern editorial feel.",
+    "Always apply hover, active, and focus states.",
+    "CRITICAL: Do NOT use complete transparent backgrounds for UI overlays or dropdowns. Solidify backgrounds if they hover over text.",
+    "Use data-testid on all interactive and informational elements (buttons, links, forms, tabs).",
+    "Ensure the hero is an Awwwards-level kinetic text reveal (staggered line by line, overflowing hidden containers).",
+    "GENERAL UI UX DESIGN GUIDELINES: Layouts must respond flawlessly down to mobile (320px). Use fluid typography scaling for oversized text.",
+    "You have .js files not .tsx file, so generate JSX inside .js files."
+  ]
+}
