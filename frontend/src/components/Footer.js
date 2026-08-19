@@ -123,7 +123,12 @@ export const Footer = () => {
 
         <div className="mt-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/40">
           <p data-testid="footer-copyright">{content.footer_credit}</p>
-          <p>Two disciplines. One engagement.</p>
+          <div className="flex items-center gap-6">
+            <p>Two disciplines. One engagement.</p>
+            <Link data-testid="footer-admin-link" to="/admin" className="hover:text-white transition-colors duration-200 uppercase tracking-widest">
+              Admin
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
