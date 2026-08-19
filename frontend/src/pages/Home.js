@@ -3,9 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, ArrowDown, Check, Mail, MessageCircle } from "lucide-react";
 import { Reveal, MaskedLines, FadeIn } from "../components/Motion";
+import { NetworkCanvas } from "../components/NetworkCanvas";
 import { useSite, whatsappLink } from "../context/SiteContext";
-
-const HERO_IMG = "https://images.pexels.com/photos/30547584/pexels-photo-30547584.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
 const STATS = [
   { value: "12+", label: "Projects delivered" },
@@ -24,7 +23,6 @@ const OUTCOMES = [
 const Hero = () => {
   const ref = useRef(null);
   const { content } = useSite();
-  const navigate = useNavigate();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
@@ -33,8 +31,8 @@ const Hero = () => {
   return (
     <section ref={ref} data-testid="hero-section" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0A1633]">
       <motion.div style={{ y: yBg }} className="absolute inset-0 scale-110">
-        <img src={HERO_IMG} alt="" className="h-full w-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1633]/70 via-[#0A1633]/80 to-[#0A1633]" />
+        <NetworkCanvas className="h-full w-full" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1633]/60 via-[#0A1633]/70 to-[#0A1633]" />
       </motion.div>
 
       <motion.div style={{ opacity }} className="relative mx-auto w-full max-w-5xl px-6 text-center pt-32 pb-20">
