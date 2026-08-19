@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ChevronDown, Menu, X, ArrowUpRight } from "lucide-react";
+import { ChevronDown, Menu, X, ArrowUpRight, ShieldCheck } from "lucide-react";
 import { NAV } from "../data/site";
 import { useSite } from "../context/SiteContext";
 import { fileUrl } from "../lib/api";
@@ -113,6 +113,15 @@ export const Navigation = () => {
         </nav>
 
         <div className="flex items-center gap-3">
+          <Link
+            data-testid="nav-admin-icon"
+            to="/admin"
+            aria-label="Admin panel sign in"
+            title="Admin panel"
+            className="inline-flex h-10 w-10 items-center justify-center border border-white/15 text-white/50 hover:text-white hover:border-[#0055FF] hover:bg-[#0055FF]/10 transition-colors duration-300"
+          >
+            <ShieldCheck className="h-4 w-4" />
+          </Link>
           <button
             data-testid="nav-cta-button"
             onClick={() => navigate("/contact")}
@@ -177,6 +186,15 @@ export const Navigation = () => {
             >
               {content.nav_cta}
             </button>
+          </li>
+          <li>
+            <Link
+              data-testid="nav-mobile-admin"
+              to="/admin"
+              className="flex items-center justify-center gap-2 w-full border border-white/15 px-5 py-3 text-xs font-semibold uppercase tracking-widest text-white/60 hover:text-white transition-colors"
+            >
+              <ShieldCheck className="h-4 w-4" /> Admin sign in
+            </Link>
           </li>
         </ul>
       </div>
