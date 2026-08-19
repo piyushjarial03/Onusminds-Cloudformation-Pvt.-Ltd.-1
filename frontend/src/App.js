@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "./context/AuthContext";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
+import { FloatingWhatsApp } from "./components/FloatingWhatsApp";
 import Home from "./pages/Home";
 import CompanyPage from "./pages/Company";
 import ServiceDetail from "./pages/ServiceDetail";
@@ -58,7 +59,8 @@ function App() {
             <Route path="*" element={<Home />} />
           </Routes>
           <Footer />
-          <Toaster theme="dark" position="bottom-right" />
+          <FloatingWhatsApp />
+          <Toaster theme="dark" position="bottom-left" />
         </div>
       </BrowserRouter>
     </AuthProvider>

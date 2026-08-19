@@ -35,6 +35,7 @@ Expand the OnusMinds one-page site into a full multi-page corporate site using b
 
 ## Updates
 - 2026-08-19: Real contacts applied — phone/WhatsApp +91 78077 22158 (wa.me/917807722158), email info@onusminds.com (site + lead notification inbox), LinkedIn icon button in footer linking to linkedin.com/company/onusminds-cloudformation-pvt-ltd, WhatsApp icon button with number
+- 2026-08-19: Floating WhatsApp chat button on all pages (bottom-right, expands "Chat with us" on hover, opens wa.me/917807722158); toasts moved to bottom-left
 
 ## Backlog
 - P0: Swap real copy/contacts; confirm notification inbox
