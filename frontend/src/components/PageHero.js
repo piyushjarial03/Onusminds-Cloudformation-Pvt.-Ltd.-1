@@ -1,7 +1,7 @@
 import { Reveal, MaskedLines } from "./Motion";
 
 export const PageHero = ({ kicker, titleLines, description, image }) => (
-  <section className="relative overflow-hidden pt-40 pb-20 md:pt-52 md:pb-28">
+  <section className="relative overflow-hidden pt-28 pb-14 md:pt-52 md:pb-28">
     {image && (
       <div className="absolute inset-0">
         <img src={image} alt="" className="h-full w-full object-cover opacity-25" />

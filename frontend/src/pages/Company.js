@@ -7,7 +7,7 @@ const ABOUT_IMG = "https://images.pexels.com/photos/8117436/pexels-photo-8117436
 
 const About = () => (
   <>
-    <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12">
       <div className="lg:col-span-7 space-y-6">
         <Reveal>
           <p className="text-base md:text-lg leading-relaxed text-white/70">
@@ -20,7 +20,7 @@ const About = () => (
           </p>
         </Reveal>
         <Reveal delay={0.15}>
-          <div className="grid grid-cols-3 gap-4 pt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8">
             {[["50+", "Engagements delivered"], ["99.95%", "Uptime track record"], ["12", "Industries served"]].map(([n, l]) => (
               <div key={l} className="border border-white/10 bg-white/[0.02] p-6">
                 <p className="font-display text-3xl md:text-4xl font-black text-[#0055FF]">{n}</p>
@@ -42,7 +42,7 @@ const About = () => (
 );
 
 const VisionMission = () => (
-  <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28 space-y-6">
+  <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28 space-y-6">
     {[
       {
         k: "Our Vision",
@@ -79,7 +79,7 @@ const MILESTONES = [
 ];
 
 const Timeline = () => (
-  <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28">
+  <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28">
     <div className="relative border-l border-white/15 ml-2 md:ml-6">
       {MILESTONES.map((m, i) => (
         <Reveal key={m.year} delay={i * 0.05}>
@@ -102,7 +102,7 @@ const LOCATIONS = [
 ];
 
 const Presence = () => (
-  <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28">
+  <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28">
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {LOCATIONS.map((l, i) => (
         <Reveal key={l.city} delay={i * 0.08}>

@@ -46,7 +46,7 @@ export const FadeIn = ({ children, delay = 0, className = "" }) => (
 );
 
 export const Marquee = ({ items }) => (
-  <div data-testid="services-marquee" className="overflow-hidden border-y border-white/10 py-10 md:py-14 select-none">
+  <div data-testid="services-marquee" className="overflow-hidden border-y border-white/10 py-7 md:py-14 select-none">
     <div className="marquee-track">
       {[0, 1].map((k) => (
         <div key={k} className="flex shrink-0 items-center" aria-hidden={k === 1}>

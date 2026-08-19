@@ -191,7 +191,7 @@ export default function AdminDashboard() {
   if (user === false) return <Navigate to="/admin/login" replace />;
 
   return (
-    <main data-testid="admin-dashboard" className="mx-auto max-w-[1200px] px-6 md:px-10 pt-32 pb-28">
+    <main data-testid="admin-dashboard" className="mx-auto max-w-[1200px] px-6 md:px-10 pt-28 pb-16 md:pb-28">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Admin</p>

@@ -18,7 +18,7 @@ export default function ServiceDetail() {
     <main data-testid={`service-page-${slug}`}>
       <PageHero kicker={service.discipline} titleLines={[service.title]} description={service.tagline} image={IMG} />
 
-      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
         <div className="lg:col-span-7">
           {service.description.map((p, i) => (
             <Reveal key={i} delay={i * 0.1}>
@@ -66,7 +66,7 @@ export default function ServiceDetail() {
       </section>
 
       <section className="border-t border-white/10">
-        <div className="mx-auto max-w-[1600px] px-6 md:px-10 py-20">
+        <div className="mx-auto max-w-[1600px] px-6 md:px-10 py-14 md:py-20">
           <Reveal>
             <p className="mb-10 text-xs font-semibold uppercase tracking-[0.3em] text-white/40">Explore more</p>
           </Reveal>

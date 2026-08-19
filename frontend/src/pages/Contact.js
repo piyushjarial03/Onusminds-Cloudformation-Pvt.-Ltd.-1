@@ -56,7 +56,7 @@ export default function Contact() {
         description="Tell us about the problem. A senior engineer or strategist replies within one business day."
       />
 
-      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
         <div className="lg:col-span-7">
           <Reveal>
             <h2 className="mb-8 font-display text-2xl md:text-3xl font-bold uppercase tracking-tight">Request work</h2>

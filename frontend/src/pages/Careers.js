@@ -24,7 +24,7 @@ export default function Careers() {
         description="We're a small team with an unreasonable standard of craft. If that sounds like home, read on."
       />
 
-      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-20">
+      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-14 md:pb-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {VALUES.map((v, i) => (
             <Reveal key={v.n} delay={i * 0.08}>
@@ -38,7 +38,7 @@ export default function Careers() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28">
+      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28">
         <Reveal>
           <h2 className="mb-10 font-display text-2xl md:text-4xl font-black uppercase tracking-tighter">Open roles</h2>
         </Reveal>

@@ -29,7 +29,7 @@ export default function NewsArticle() {
 
   return (
     <main data-testid="article-page">
-      <section className="relative pt-40 pb-14 md:pt-52">
+      <section className="relative pt-28 pb-10 md:pt-52 md:pb-14">
         <div className="mx-auto max-w-4xl px-6">
           <Reveal y={20}>
             <Link data-testid="article-back" to="/news" className="mb-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-white/50 hover:text-white transition-colors">

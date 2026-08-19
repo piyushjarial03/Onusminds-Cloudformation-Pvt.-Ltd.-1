@@ -31,7 +31,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-[#050505]/40" />
       </motion.div>
 
-      <motion.div style={{ opacity }} className="relative mx-auto w-full max-w-[1600px] px-6 md:px-10 pb-16 md:pb-24 pt-40">
+      <motion.div style={{ opacity }} className="relative mx-auto w-full max-w-[1600px] px-6 md:px-10 pb-14 md:pb-24 pt-32 md:pt-40">
         <FadeIn delay={0.1}>
           <p className="mb-8 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
             <span className="h-px w-12 bg-[#0055FF]" /> IT Services × Digital Marketing
@@ -41,7 +41,7 @@ const Hero = () => {
         <MaskedLines
           data-testid="hero-headline"
           lines={["Infrastructure", "that holds.", "Marketing that", "moves."]}
-          className="font-display font-black uppercase tracking-tighter leading-[0.92] text-[13vw] sm:text-[11vw] lg:text-[8.5vw]"
+          className="font-display font-black uppercase tracking-tighter leading-[0.92] text-[9vw] sm:text-[10vw] lg:text-[8.5vw]"
           lineClassName="pb-1"
           delay={0.25}
         />
@@ -77,7 +77,7 @@ const Hero = () => {
 };
 
 const Approach = () => (
-  <section id="approach" data-testid="approach-section" className="relative mx-auto max-w-[1600px] px-6 md:px-10 py-28 md:py-40">
+  <section id="approach" data-testid="approach-section" className="relative mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-32">
     <Reveal>
       <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">The Approach</p>
       <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">
@@ -85,7 +85,7 @@ const Approach = () => (
       </h2>
     </Reveal>
 
-    <div className="mt-20 md:mt-32 space-y-24 md:space-y-36">
+    <div className="mt-14 md:mt-32 space-y-16 md:space-y-36">
       {[
         {
           num: "01",
@@ -99,7 +99,7 @@ const Approach = () => (
         },
       ].map((ch, i) => (
         <div key={ch.num} className={`relative grid grid-cols-1 md:grid-cols-12 gap-8 items-start ${i % 2 ? "" : ""}`}>
-          <span className="pointer-events-none absolute -top-16 md:-top-24 left-0 font-display text-[10rem] md:text-[16rem] font-black leading-none text-outline-soft select-none">
+          <span className="pointer-events-none absolute -top-10 md:-top-24 left-0 font-display text-[6rem] md:text-[16rem] font-black leading-none text-outline-soft select-none">
             {ch.num}
           </span>
           <div className={`relative md:col-span-4 ${i % 2 ? "md:order-2 md:col-start-9" : ""}`}>
@@ -119,7 +119,7 @@ const Approach = () => (
 );
 
 const Capabilities = () => (
-  <section data-testid="capabilities-section" className="mx-auto max-w-[1600px] px-6 md:px-10 py-28 md:py-40 border-t border-white/10">
+  <section data-testid="capabilities-section" className="mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-32 border-t border-white/10">
     <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 md:mb-24">
       <div>
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Core Capabilities</p>
@@ -152,7 +152,7 @@ const ServicesIndex = () => {
   const navigate = useNavigate();
   return (
     <section data-testid="services-index-section" className="border-t border-white/10">
-      <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-28 md:pt-40 pb-10">
+      <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-16 md:pt-40 pb-10">
         <Reveal>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Services</p>
           <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">Pick your discipline</h2>
@@ -185,7 +185,7 @@ const ServicesIndex = () => {
 };
 
 const RequestSection = () => (
-  <section data-testid="request-section" className="relative mx-auto max-w-[1600px] px-6 md:px-10 py-28 md:py-40">
+  <section data-testid="request-section" className="relative mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-32">
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
       <div className="lg:col-span-5">
         <Reveal>

@@ -19,7 +19,7 @@ export default function News() {
         titleLines={["News &", "Media"]}
         description="Announcements, engineering notes and growth thinking from the OnusMinds team."
       />
-      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-28">
+      <section className="mx-auto max-w-[1600px] px-6 md:px-10 pb-16 md:pb-28">
         {articles === null ? (
           <p className="text-white/40 text-sm" data-testid="news-loading">Loading articles…</p>
         ) : articles.length === 0 ? (

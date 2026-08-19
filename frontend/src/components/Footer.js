@@ -17,14 +17,14 @@ export const Footer = () => {
 
   return (
     <footer data-testid="site-footer" className="relative border-t border-white/10 bg-[#050505] overflow-hidden">
-      <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-24 md:pt-32 pb-10">
+      <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-16 md:pt-32 pb-10">
         <Reveal>
           <button
             data-testid="footer-cta"
             onClick={() => navigate("/contact")}
             className="group block text-left w-full"
           >
-            <span className="font-display block font-black uppercase tracking-tighter leading-[0.9] text-[13vw] md:text-[9vw] text-outline hover:text-white transition-colors duration-700">
+            <span className="font-display block font-black uppercase tracking-tighter leading-[0.9] text-[11vw] md:text-[9vw] text-outline hover:text-white transition-colors duration-700">
               Start a<br />conversation
             </span>
             <span className="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-widest text-white/50 group-hover:text-[#0055FF] transition-colors duration-300">

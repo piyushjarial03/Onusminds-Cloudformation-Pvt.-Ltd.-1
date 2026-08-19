@@ -19,9 +19,9 @@ export const FloatingWhatsApp = () => (
     transition={{ delay: 1.4, duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
     whileHover={{ scale: 1.08 }}
     whileTap={{ scale: 0.94 }}
-    className="group fixed bottom-6 right-6 z-40 flex items-center gap-0 rounded-full bg-[#25D366] text-black shadow-lg shadow-[#25D366]/25 hover:shadow-xl hover:shadow-[#25D366]/40 transition-shadow duration-300"
+    className="group fixed bottom-4 right-4 md:bottom-6 md:right-6 z-40 flex items-center gap-0 rounded-full bg-[#25D366] text-black shadow-lg shadow-[#25D366]/25 hover:shadow-xl hover:shadow-[#25D366]/40 transition-shadow duration-300"
   >
-    <span className="relative flex h-14 w-14 items-center justify-center">
+    <span className="relative flex h-12 w-12 md:h-14 md:w-14 items-center justify-center">
       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-25" />
       <WhatsAppGlyph />
     </span>
