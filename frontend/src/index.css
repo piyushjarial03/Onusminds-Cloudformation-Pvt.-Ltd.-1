@@ -60,6 +60,10 @@
     input, textarea, select {
         color-scheme: dark;
     }
+    select option {
+        background-color: #0b1220;
+        color: #ffffff;
+    }
 }
 
 .font-display {

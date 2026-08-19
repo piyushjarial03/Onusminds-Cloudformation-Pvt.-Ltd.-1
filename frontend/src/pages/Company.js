@@ -137,18 +137,6 @@ const PAGES = {
     description: "The beliefs that shape every engagement we sign.",
     Body: VisionMission,
   },
-  timeline: {
-    kicker: "Company — Timeline & Milestones",
-    title: ["The road", "so far"],
-    description: "Key moments from a two-person consultancy to a two-discipline firm.",
-    Body: Timeline,
-  },
-  presence: {
-    kicker: "Company — Our Presence",
-    title: ["Always within", "working hours"],
-    description: "Three hubs, three time zones, one follow-the-sun operating model.",
-    Body: Presence,
-  },
 };
 
 export default function CompanyPage() {

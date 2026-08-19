@@ -19,7 +19,7 @@ export const Footer = () => {
     phoneHref: `tel:${(content.contact_phone || "").replace(/[^+\d]/g, "")}`,
     whatsapp: whatsappLink(content.whatsapp_number),
     whatsappNumber: content.whatsapp_number,
-    linkedin: CONTACT["linkedin"],
+    linkedin: content.linkedin_url,
   };
   const company = NAV.find((n) => n.label === "Company");
   const servicesCol = { children: siteServices.map((s) => ({ label: s.title, to: `/services/${s.slug}` })) };
@@ -50,7 +50,7 @@ export const Footer = () => {
               <span className="block text-[10px] font-semibold tracking-[0.25em] text-white/50 normal-case">Cloudformation Pvt. Ltd.</span>
             </p>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">
-              Two disciplines. One engagement. Infrastructure that holds, marketing that moves — under one roof.
+              {content.footer_blurb}
             </p>
             <div className="mt-6 flex items-center gap-3">
               <a

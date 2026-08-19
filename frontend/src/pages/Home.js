@@ -31,7 +31,18 @@ const Hero = () => {
   return (
     <section ref={ref} data-testid="hero-section" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0A1633]">
       <motion.div style={{ y: yBg }} className="absolute inset-0 scale-110">
-        <NetworkCanvas className="h-full w-full" />
+        <video
+          data-testid="hero-video"
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src={`${process.env.REACT_APP_BACKEND_URL}/api/files/onusminds/news/ab32656d-9a7d-4a9c-8a3e-5ce42d07f2d8.webm`} type="video/webm" />
+          <source src={`${process.env.REACT_APP_BACKEND_URL}/api/files/onusminds/news/820d9108-d515-47f5-b312-bbda48eebdec.mp4`} type="video/mp4" />
+        </video>
+        <NetworkCanvas className="absolute inset-0 h-full w-full opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A1633]/60 via-[#0A1633]/70 to-[#0A1633]" />
       </motion.div>
 
@@ -74,10 +85,13 @@ const Hero = () => {
   );
 };
 
-const StatsBar = () => (
+const StatsBar = () => {
+  const { content } = useSite();
+  const stats = [1, 2, 3, 4].map((n) => ({ value: content[`stat_${n}_value`], label: content[`stat_${n}_label`] }));
+  return (
   <section data-testid="stats-bar" className="bg-[#0D1C40] border-y border-white/5">
     <div className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4 px-6">
-      {STATS.map((s, i) => (
+      {stats.map((s, i) => (
         <Reveal key={s.label} delay={i * 0.08}>
           <div data-testid={`stat-${i}`} className="px-4 py-10 text-center md:border-l border-white/5 first:border-l-0">
             <p className="font-display text-3xl md:text-4xl font-black text-white">{s.value}</p>
@@ -87,7 +101,8 @@ const StatsBar = () => (
       ))}
     </div>
   </section>
-);
+  );
+};
 
 const WhoWeAre = () => {
   const { content } = useSite();

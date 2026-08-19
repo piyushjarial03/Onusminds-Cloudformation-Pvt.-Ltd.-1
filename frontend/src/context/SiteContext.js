@@ -18,6 +18,12 @@ export const DEFAULT_CONTENT = {
   whatsapp_number: "+91 78077 22158",
   nav_cta: "Start a conversation",
   footer_credit: "© 2026 OnusMinds. All rights reserved.",
+  footer_blurb: "Two disciplines. One engagement. Infrastructure that holds, marketing that moves — under one roof.",
+  linkedin_url: "https://www.linkedin.com/company/onusminds-cloudformation-pvt-ltd/",
+  stat_1_value: "12+", stat_1_label: "Projects delivered",
+  stat_2_value: "6", stat_2_label: "Active clients",
+  stat_3_value: "24h", stat_3_label: "Support coverage",
+  stat_4_value: "2", stat_4_label: "Disciplines, one team",
 };
 
 export const whatsappLink = (number) =>

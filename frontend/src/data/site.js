@@ -20,8 +20,6 @@ export const NAV = [
     children: [
       { label: "About Us", to: "/company/about" },
       { label: "Vision & Mission", to: "/company/vision-mission" },
-      { label: "Timeline & Milestones", to: "/company/timeline" },
-      { label: "Our Presence", to: "/company/presence" },
     ],
   },
   {

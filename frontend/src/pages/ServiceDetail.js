@@ -45,14 +45,8 @@ export default function ServiceDetail() {
         <aside className="lg:col-span-5">
           <Reveal delay={0.1}>
             <div className="border border-white/10 bg-white/[0.02] p-8 md:p-10 sticky top-28">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Outcomes</p>
-              <ul className="mt-6 space-y-5">
-                {service.outcomes.map((o) => (
-                  <li key={o} className="border-l-2 border-[#0055FF] pl-4 font-display text-lg md:text-xl font-bold tracking-tight">
-                    {o}
-                  </li>
-                ))}
-              </ul>
+              <p className="font-display text-lg md:text-xl font-bold tracking-tight">Ready when you are.</p>
+              <p className="mt-2 text-sm leading-relaxed text-white/50">Tell us the outcome you need — we'll map the fastest route to it.</p>
               <button
                 data-testid="service-cta-button"
                 onClick={() => navigate("/contact")}

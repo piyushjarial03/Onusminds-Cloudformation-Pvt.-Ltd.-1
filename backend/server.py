@@ -142,6 +142,7 @@ storage_key = None
 MIME_TYPES = {
     "jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png",
     "gif": "image/gif", "webp": "image/webp",
+    "webm": "video/webm", "mp4": "video/mp4",
 }
 
 
@@ -423,7 +424,7 @@ async def admin_delete_news(news_id: str, admin=Depends(get_current_admin)):
 async def admin_upload(admin=Depends(get_current_admin), file: UploadFile = File(...)):
     ext = file.filename.split(".")[-1].lower() if file.filename and "." in file.filename else "bin"
     if ext not in MIME_TYPES:
-        raise HTTPException(status_code=400, detail="Only jpg, png, gif, webp images are allowed")
+        raise HTTPException(status_code=400, detail="Only images (jpg, png, gif, webp) or videos (webm, mp4) are allowed")
     data = await file.read()
     if len(data) > 8 * 1024 * 1024:
         raise HTTPException(status_code=400, detail="Image must be under 8MB")
@@ -469,6 +470,12 @@ DEFAULT_CONTENT = {
     "whatsapp_number": "+91 78077 22158",
     "nav_cta": "Start a conversation",
     "footer_credit": "© 2026 OnusMinds. All rights reserved.",
+    "footer_blurb": "Two disciplines. One engagement. Infrastructure that holds, marketing that moves — under one roof.",
+    "linkedin_url": "https://www.linkedin.com/company/onusminds-cloudformation-pvt-ltd/",
+    "stat_1_value": "12+", "stat_1_label": "Projects delivered",
+    "stat_2_value": "6", "stat_2_label": "Active clients",
+    "stat_3_value": "24h", "stat_3_label": "Support coverage",
+    "stat_4_value": "2", "stat_4_label": "Disciplines, one team",
 }
 
 

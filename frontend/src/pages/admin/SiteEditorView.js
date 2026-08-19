@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Plus, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { api, fileUrl, formatApiError } from "../../lib/api";
-import { useSite } from "../../context/SiteContext";
+import { useSite, DEFAULT_CONTENT } from "../../context/SiteContext";
 
 const inputCls =
   "w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-[#0055FF] focus:outline-none transition-colors duration-300";
@@ -27,7 +27,7 @@ export default function SiteEditorView() {
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    api.get("/content").then((r) => setContent(r.data)).catch((e) => toast.error(formatApiError(e)));
+    api.get("/content").then((r) => setContent({ ...DEFAULT_CONTENT, ...r.data })).catch((e) => toast.error(formatApiError(e)));
     api.get("/admin/services").then((r) => setServices(r.data)).catch((e) => toast.error(formatApiError(e)));
   }, []);
 
@@ -121,6 +121,26 @@ export default function SiteEditorView() {
             <Field label="WhatsApp" k="whatsapp_number" value={content.whatsapp_number} onChange={setC("whatsapp_number")} />
             <Field label="Nav CTA" k="nav_cta" value={content.nav_cta} onChange={setC("nav_cta")} />
             <Field label="Footer credit" k="footer_credit" value={content.footer_credit} onChange={setC("footer_credit")} />
+            <Field label="Footer blurb" k="footer_blurb" textarea value={content.footer_blurb} onChange={setC("footer_blurb")} />
+            <Field label="LinkedIn URL" k="linkedin_url" value={content.linkedin_url} onChange={setC("linkedin_url")} />
+          </div>
+
+          <div className="border border-white/10 bg-white/[0.02] p-6 md:p-8">
+            <h2 className="font-display text-lg font-bold tracking-tight">Homepage stats</h2>
+            <div className="mt-5 space-y-5">
+              {[1, 2, 3, 4].map((n) => (
+                <div key={n} className="grid grid-cols-[120px_1fr] gap-3">
+                  <div>
+                    <label className={labelCls}>Stat {n} value</label>
+                    <input data-testid={`field-stat_${n}_value`} value={content[`stat_${n}_value`]} onChange={setC(`stat_${n}_value`)} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Stat {n} label</label>
+                    <input data-testid={`field-stat_${n}_label`} value={content[`stat_${n}_label`]} onChange={setC(`stat_${n}_label`)} className={inputCls} />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="border border-white/10 bg-white/[0.02] p-6 md:p-8">
