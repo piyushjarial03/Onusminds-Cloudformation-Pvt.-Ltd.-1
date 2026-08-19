@@ -52,7 +52,7 @@ const LeadsTab = () => {
           </div>
           <p className="mt-3 text-sm text-white/60">{l.message}</p>
           <p className="mt-2 text-[10px] uppercase tracking-widest text-white/30">
-            {[l.company, l.service, l.budget].filter(Boolean).join(" · ") || "—"} · {new Date(l.created_at).toLocaleString("en-IN")}
+            {[l.company, l.service, l.phone, l.contact_method && `Prefers ${l.contact_method}`].filter(Boolean).join(" · ") || "—"} · {new Date(l.created_at).toLocaleString("en-IN")}
           </p>
         </li>
       ))}

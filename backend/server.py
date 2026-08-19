@@ -262,8 +262,9 @@ class LeadCreate(BaseModel):
     name: str
     email: EmailStr
     company: Optional[str] = None
+    phone: Optional[str] = None
     service: Optional[str] = None
-    budget: Optional[str] = None
+    contact_method: Optional[str] = None
     message: str
 
 
@@ -276,8 +277,9 @@ async def create_lead(payload: LeadCreate):
         "name": payload.name.strip(),
         "email": payload.email.lower().strip(),
         "company": payload.company,
+        "phone": payload.phone,
         "service": payload.service,
-        "budget": payload.budget,
+        "contact_method": payload.contact_method,
         "message": payload.message.strip(),
         "read": False,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -293,8 +295,9 @@ async def create_lead(payload: LeadCreate):
                 f'<td style="padding:6px 12px;font-size:13px">{escape(v)}</td></tr>'
                 for k, v in [("Name", doc["name"]), ("Email", doc["email"]),
                              ("Company", doc.get("company") or "-"),
+                             ("Phone", doc.get("phone") or "-"),
                              ("Service", doc.get("service") or "-"),
-                             ("Budget", doc.get("budget") or "-"),
+                             ("Preferred contact", doc.get("contact_method") or "-"),
                              ("Message", doc["message"])]
             )
             html = (f'<table role="presentation" width="100%"><tr><td style="padding:24px;'
