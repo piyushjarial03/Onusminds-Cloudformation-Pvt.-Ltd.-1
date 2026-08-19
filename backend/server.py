@@ -254,6 +254,7 @@ async def login(payload: LoginIn, request: Request, response: Response):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     await db.login_attempts.delete_one({"identifier": identifier})
+    await log_activity(email, user.get("name", "Admin"), "Signed in")
     token = create_access_token(user["id"], email)
     response.set_cookie(key="access_token", value=token, httponly=True, secure=True,
                         samesite="none", max_age=43200, path="/")
@@ -344,12 +345,15 @@ async def update_lead(lead_id: str, payload: dict, admin=Depends(get_request_man
         update["read"] = bool(payload["read"])
     if update:
         await db.leads.update_one({"id": lead_id}, {"$set": update})
+        await log_activity(admin["email"], admin.get("name", ""), "Updated request", f"Status → {update.get('status', 'read change')}")
     return {"status": "ok"}
 
 
 @api_router.delete("/admin/leads/{lead_id}")
 async def delete_lead(lead_id: str, admin=Depends(get_request_manager)):
+    lead = await db.leads.find_one({"id": lead_id}, {"_id": 0, "name": 1})
     await db.leads.delete_one({"id": lead_id})
+    await log_activity(admin["email"], admin.get("name", ""), "Deleted request", (lead or {}).get("name", lead_id))
     return {"status": "ok"}
 
 
@@ -399,6 +403,7 @@ async def admin_create_news(payload: NewsIn, admin=Depends(get_current_admin)):
                 "created_at": datetime.now(timezone.utc).isoformat()})
     await db.news.insert_one(doc)
     doc.pop("_id", None)
+    await log_activity(admin["email"], admin.get("name", ""), "Published article", doc["title"])
     return doc
 
 
@@ -410,12 +415,15 @@ async def admin_update_news(news_id: str, payload: NewsIn, admin=Depends(get_cur
     update = payload.model_dump()
     update["updated_at"] = datetime.now(timezone.utc).isoformat()
     await db.news.update_one({"id": news_id}, {"$set": update})
+    await log_activity(admin["email"], admin.get("name", ""), "Edited article", payload.title)
     return {**existing, **update}
 
 
 @api_router.delete("/admin/news/{news_id}")
 async def admin_delete_news(news_id: str, admin=Depends(get_current_admin)):
+    doc = await db.news.find_one({"id": news_id}, {"_id": 0, "title": 1})
     await db.news.delete_one({"id": news_id})
+    await log_activity(admin["email"], admin.get("name", ""), "Deleted article", (doc or {}).get("title", news_id))
     return {"status": "ok"}
 
 
@@ -440,6 +448,7 @@ async def admin_upload(admin=Depends(get_current_admin), file: UploadFile = File
         "is_deleted": False,
         "created_at": datetime.now(timezone.utc).isoformat(),
     })
+    await log_activity(admin["email"], admin.get("name", ""), "Uploaded file", file.filename or path)
     return {"path": result["path"], "url": f"/api/files/{result['path']}"}
 
 
@@ -494,6 +503,8 @@ async def put_content(payload: dict, admin=Depends(get_owner)):
         merged.update(existing.get("data", {}))
     merged.update(clean)
     await db.site_content.update_one({"key": "main"}, {"$set": {"data": merged}}, upsert=True)
+    await log_activity(admin["email"], admin.get("name", ""), "Published site content",
+                       "Changed: " + ", ".join(clean.keys()) if clean else "No fields changed")
     return merged
 
 
@@ -592,6 +603,7 @@ async def bulk_services(payload: dict, admin=Depends(get_owner)):
             await db.services.insert_one(doc)
         kept_ids.append(sid)
     await db.services.delete_many({"id": {"$nin": kept_ids}})
+    await log_activity(admin["email"], admin.get("name", ""), "Updated services", f"{len(kept_ids)} services saved")
     return await db.services.find({}, {"_id": 0}).sort("order", 1).to_list(100)
 
 
@@ -635,6 +647,7 @@ async def create_team_member(payload: TeamCreate, admin=Depends(get_owner)):
     }
     await db.users.insert_one(doc)
     doc.pop("password_hash")
+    await log_activity(admin["email"], admin.get("name", ""), "Created account", f"{email} ({doc['role']})")
     return doc
 
 
@@ -642,8 +655,30 @@ async def create_team_member(payload: TeamCreate, admin=Depends(get_owner)):
 async def delete_team_member(user_id: str, admin=Depends(get_owner)):
     if user_id == admin["id"]:
         raise HTTPException(status_code=400, detail="You cannot remove your own account")
+    target = await db.users.find_one({"id": user_id}, {"_id": 0, "email": 1})
     await db.users.delete_one({"id": user_id})
+    await log_activity(admin["email"], admin.get("name", ""), "Removed account", (target or {}).get("email", user_id))
     return {"status": "ok"}
+
+
+# ---------- Activity log ----------
+async def log_activity(email: str, name: str, action: str, detail: str = ""):
+    try:
+        await db.activity.insert_one({
+            "id": str(uuid.uuid4()),
+            "user_email": email,
+            "user_name": name,
+            "action": action,
+            "detail": detail,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        })
+    except Exception as e:
+        logger.error(f"Activity log failed: {e}")
+
+
+@api_router.get("/admin/activity")
+async def list_activity(admin=Depends(get_owner)):
+    return await db.activity.find({}, {"_id": 0}).sort("created_at", -1).to_list(300)
 
 
 # ---------- Health ----------

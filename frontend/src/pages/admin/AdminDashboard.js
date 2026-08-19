@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { LayoutDashboard, PenSquare, Inbox, Users, Newspaper, LogOut } from "lucide-react";
+import { LayoutDashboard, PenSquare, Inbox, Users, Newspaper, LogOut, History } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import DashboardView from "./DashboardView";
 import RequestsView from "./RequestsView";
 import SiteEditorView from "./SiteEditorView";
 import TeamView from "./TeamView";
 import NewsView from "./NewsView";
+import ActivityView from "./ActivityView";
 
 const ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -14,6 +15,7 @@ const ITEMS = [
   { id: "requests", label: "Requests", icon: Inbox },
   { id: "team", label: "Team access", icon: Users },
   { id: "news", label: "News & Media", icon: Newspaper },
+  { id: "activity", label: "Activity", icon: History },
 ];
 
 export default function AdminDashboard() {
@@ -24,8 +26,8 @@ export default function AdminDashboard() {
     return <main className="pt-40 px-6 text-white/40 text-sm" data-testid="admin-loading">Checking access…</main>;
   if (user === false) return <Navigate to="/admin/login" replace />;
 
-  const Active = { dashboard: DashboardView, editor: SiteEditorView, requests: RequestsView, team: TeamView, news: NewsView }[view];
-  const items = ITEMS.filter((i) => user.role === "owner" || !["editor", "team"].includes(i.id));
+  const Active = { dashboard: DashboardView, editor: SiteEditorView, requests: RequestsView, team: TeamView, news: NewsView, activity: ActivityView }[view];
+  const items = ITEMS.filter((i) => user.role === "owner" || !["editor", "team", "activity"].includes(i.id));
 
   return (
     <main data-testid="admin-dashboard" className="min-h-screen pt-[72px]">
