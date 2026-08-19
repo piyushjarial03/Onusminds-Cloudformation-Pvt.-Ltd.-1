@@ -60,10 +60,10 @@ const Hero = () => {
         <FadeIn delay={1.05}>
           <button
             data-testid="hero-cta-button"
-            onClick={() => navigate("/contact")}
+            onClick={() => window.open(whatsappLink(content.whatsapp_number), "_blank", "noopener,noreferrer")}
             className="group mt-10 inline-flex items-center gap-3 rounded-md bg-[#2563EB] px-9 py-4 text-sm font-semibold text-white hover:bg-[#1d4fd7] transition-colors duration-300"
           >
-            {content.nav_cta === "Start a conversation" ? "Request a service" : content.nav_cta}
+            Start a conversation
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
           </button>
         </FadeIn>
