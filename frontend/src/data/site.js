@@ -1,16 +1,16 @@
 import { SERVICES } from "./services";
 
 export const CONTACT = {
-  email: "hello@onusminds.com",
-  phone: "+91 98765 43210",
-  phoneHref: "tel:+919876543210",
-  whatsapp: "https://wa.me/919876543210?text=Hi%20OnusMinds%2C%20I%27d%20like%20to%20start%20a%20conversation.",
+  email: "info@onusminds.com",
+  phone: "+91 78077 22158",
+  phoneHref: "tel:+917807722158",
+  whatsapp: "https://wa.me/917807722158?text=Hi%20OnusMinds%2C%20I%27d%20like%20to%20start%20a%20conversation.",
+  whatsappNumber: "+91 78077 22158",
+  linkedin: "https://www.linkedin.com/company/onusminds-cloudformation-pvt-ltd/",
 };
 
 export const SOCIALS = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/" },
-  { label: "X / Twitter", href: "https://x.com/" },
-  { label: "Instagram", href: "https://www.instagram.com/" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/onusminds-cloudformation-pvt-ltd/" },
 ];
 
 export const NAV = [

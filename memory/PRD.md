@@ -31,9 +31,10 @@ Expand the OnusMinds one-page site into a full multi-page corporate site using b
 - UI: hero/marquee/capabilities, dropdown nav → service page, news list → article, contact form submit toast, admin login → both tabs
 
 ## Placeholders to swap (user action)
-- OWNER_NOTIFY_EMAIL=hello@onusminds.com — confirm the real inbox for lead notifications
-- Phone/WhatsApp (+91 98765 43210), email, social URLs — placeholder contacts
 - Company/service/careers copy is polished placeholder text
+
+## Updates
+- 2026-08-19: Real contacts applied — phone/WhatsApp +91 78077 22158 (wa.me/917807722158), email info@onusminds.com (site + lead notification inbox), LinkedIn icon button in footer linking to linkedin.com/company/onusminds-cloudformation-pvt-ltd, WhatsApp icon button with number
 
 ## Backlog
 - P0: Swap real copy/contacts; confirm notification inbox
