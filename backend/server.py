@@ -481,9 +481,12 @@ async def get_content():
 @api_router.put("/admin/content")
 async def put_content(payload: dict, admin=Depends(get_owner)):
     clean = {k: str(v) for k, v in payload.items() if k in DEFAULT_CONTENT}
-    await db.site_content.update_one({"key": "main"}, {"$set": {"data": clean}}, upsert=True)
+    existing = await db.site_content.find_one({"key": "main"}, {"_id": 0})
     merged = dict(DEFAULT_CONTENT)
+    if existing:
+        merged.update(existing.get("data", {}))
     merged.update(clean)
+    await db.site_content.update_one({"key": "main"}, {"$set": {"data": merged}}, upsert=True)
     return merged
 
 
