@@ -4,7 +4,7 @@ export const SERVICES = [
     title: "Infrastructure & Cloud",
     discipline: "IT Services",
     tagline: "Platforms engineered to never blink.",
-    short: "Cloud architecture, migration and DevOps pipelines built for scale and audited for resilience.",
+    short: "Architecture reviews, cloud migration, and cost cleanup for teams running on AWS, Azure, or GCP.",
     description: [
       "Your infrastructure is the silent partner in every campaign, launch and transaction. We design cloud environments on AWS, Azure and GCP that scale elastically with demand — and fail gracefully when the unexpected happens.",
       "From greenfield architecture to brownfield migration, our engineers work in audited, documented, infrastructure-as-code engagements. Nothing lives in someone's head; everything lives in version control.",
@@ -24,7 +24,7 @@ export const SERVICES = [
     title: "Managed IT Support",
     discipline: "IT Services",
     tagline: "A follow-the-sun safety net for your stack.",
-    short: "24/7 monitoring, incident response and end-user support with a 15-minute critical SLA.",
+    short: "Day-to-day helpdesk, endpoint monitoring, and patching so nothing depends on one in-house person.",
     description: [
       "Downtime doesn't keep office hours, and neither do we. Our managed support practice watches your systems around the clock across three time zones, resolving most incidents before your users ever notice.",
       "Beyond firefighting, we run the unglamorous discipline that prevents fires: patch cadences, backup verification, capacity planning and blameless postmortems that turn every incident into a hardening exercise.",
@@ -44,7 +44,7 @@ export const SERVICES = [
     title: "SEO & Content Strategy",
     discipline: "Digital Marketing",
     tagline: "Organic growth, engineered in the codebase.",
-    short: "Technical SEO, editorial strategy and content operations that compound quarter after quarter.",
+    short: "Technical SEO fixes, keyword mapping, and an editorial calendar built around what your buyers search.",
     description: [
       "Search performance is won in the codebase as much as in the copy. Our strategists sit inside the engineering sprint — Core Web Vitals, crawl budgets and structured data ship as pull requests, not slide decks.",
       "On top of that technical foundation, we build editorial engines: topic clusters mapped to intent, a publishing cadence your team can actually sustain, and measurement tied to pipeline rather than vanity rankings.",
@@ -64,7 +64,7 @@ export const SERVICES = [
     title: "Paid Media & Performance",
     discipline: "Digital Marketing",
     tagline: "Every rupee accountable. Every click measured.",
-    short: "Full-funnel paid acquisition across search, social and programmatic with ruthless attribution.",
+    short: "Search and social campaigns managed to a cost-per-lead target, not a vanity impression count.",
     description: [
       "Paid media should be an investment with a statement, not an expense with a hope. We plan, launch and optimise campaigns across Google, Meta, LinkedIn and programmatic with creative testing built into the operating rhythm.",
       "Attribution is where most agencies go quiet; it's where we start. Server-side tracking, clean UTM governance and weekly budget reallocation mean your spend flows to what actually converts.",
@@ -78,46 +78,6 @@ export const SERVICES = [
       "Weekly budget reallocation",
     ],
     outcomes: ["ROAS reported weekly, not monthly", "Creative tested in structured sprints", "Full-funnel attribution clarity"],
-  },
-  {
-    slug: "it-services-consulting",
-    title: "IT Services & Consulting",
-    discipline: "IT Services",
-    tagline: "Senior counsel for hard technology decisions.",
-    short: "Technology audits, vendor selection, security posture and digital transformation roadmaps.",
-    description: [
-      "Some decisions are too expensive to get wrong: replatforming, vendor lock-in, build-versus-buy, security posture. Our consultants bring operator experience — not analyst frameworks — to your hardest technology calls.",
-      "Engagements range from two-week audits to embedded fractional-CTO arrangements. Either way, you leave with a roadmap your board can read and your engineers can execute.",
-    ],
-    deliverables: [
-      "Technology & architecture audits",
-      "Digital transformation roadmaps",
-      "Vendor & build-vs-buy evaluation",
-      "Security posture assessment",
-      "Fractional CTO / advisory",
-      "Team structure & hiring support",
-    ],
-    outcomes: ["Board-ready technology roadmaps", "Vendor-neutral recommendations", "Operator experience, not slideware"],
-  },
-  {
-    slug: "digital-marketing",
-    title: "Digital Marketing",
-    discipline: "Digital Marketing",
-    tagline: "Brand demand, built as a system.",
-    short: "Strategy, social, email and marketing automation unified into one demand engine.",
-    description: [
-      "Great marketing isn't a series of campaigns — it's a system that compounds. We design the full demand engine: positioning, channel strategy, lifecycle email, social presence and the automation layer that ties it together.",
-      "Because we also run the infrastructure, your marketing stack actually works: forms that never drop leads, analytics that never lie, and pages that load before attention wanders.",
-    ],
-    deliverables: [
-      "Brand & go-to-market strategy",
-      "Social media management",
-      "Email & lifecycle marketing",
-      "Marketing automation (CRM)",
-      "Analytics & reporting stack",
-      "Conversion rate optimisation",
-    ],
-    outcomes: ["One demand engine, not scattered campaigns", "Marketing stack that actually works", "Reporting tied to pipeline"],
   },
 ];
 

@@ -1,25 +1,23 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowDown, Server, ShieldCheck, TrendingUp, Megaphone, Cloud, LineChart } from "lucide-react";
+import { ArrowUpRight, ArrowDown, ShieldCheck, TrendingUp, Megaphone, Cloud } from "lucide-react";
 import { Reveal, MaskedLines, FadeIn, Marquee } from "../components/Motion";
 import { RequestWorkForm } from "../components/RequestWorkForm";
 import { SERVICES } from "../data/services";
+import { CONTACT } from "../data/site";
 
 const HERO_IMG = "https://images.pexels.com/photos/30547584/pexels-photo-30547584.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
 
 const CAPABILITIES = [
-  { icon: Cloud, title: "Cloud Architecture", text: "Landing zones, Kubernetes and IaC that scale with ambition.", span: "md:col-span-7" },
-  { icon: ShieldCheck, title: "24/7 Managed Support", text: "Follow-the-sun monitoring with a 15-minute critical SLA.", span: "md:col-span-5" },
-  { icon: TrendingUp, title: "SEO & Content", text: "Organic growth engineered inside the codebase.", span: "md:col-span-5" },
-  { icon: Megaphone, title: "Paid Media", text: "Full-funnel acquisition with ruthless attribution.", span: "md:col-span-7" },
-  { icon: Server, title: "IT Consulting", text: "Operator-grade counsel for hard technology calls.", span: "md:col-span-6" },
-  { icon: LineChart, title: "Demand Engines", text: "Marketing systems that compound, not campaigns that expire.", span: "md:col-span-6" },
+  { icon: Cloud, title: "Infrastructure & Cloud", text: "Architecture reviews, cloud migration, and cost cleanup for teams running on AWS, Azure, or GCP.", span: "md:col-span-7" },
+  { icon: ShieldCheck, title: "Managed IT Support", text: "Day-to-day helpdesk, endpoint monitoring, and patching so nothing depends on one in-house person.", span: "md:col-span-5" },
+  { icon: TrendingUp, title: "SEO & Content Strategy", text: "Technical SEO fixes, keyword mapping, and an editorial calendar built around what your buyers search.", span: "md:col-span-5" },
+  { icon: Megaphone, title: "Paid Media & Performance", text: "Search and social campaigns managed to a cost-per-lead target, not a vanity impression count.", span: "md:col-span-7" },
 ];
 
 const Hero = () => {
   const ref = useRef(null);
-  const navigate = useNavigate();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
@@ -34,14 +32,14 @@ const Hero = () => {
       <motion.div style={{ opacity }} className="relative mx-auto w-full max-w-[1600px] px-6 md:px-10 pb-14 md:pb-24 pt-32 md:pt-40">
         <FadeIn delay={0.1}>
           <p className="mb-8 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
-            <span className="h-px w-12 bg-[#0055FF]" /> IT Services × Digital Marketing
+            <span className="h-px w-12 bg-[#0055FF]" /> IT Services &amp; Consulting / Digital Marketing
           </p>
         </FadeIn>
 
         <MaskedLines
           data-testid="hero-headline"
-          lines={["Infrastructure", "that holds.", "Marketing that", "moves."]}
-          className="font-display font-black uppercase tracking-tighter leading-[0.92] text-[9vw] sm:text-[10vw] lg:text-[8.5vw]"
+          lines={["Cloud", "Infrastructure.", "Scale with ease,", "perform with speed.", "Built to grow", "with the cloud."]}
+          className="font-display font-black uppercase tracking-tighter leading-[0.92] text-[8.5vw] sm:text-[7vw] lg:text-[6vw]"
           lineClassName="pb-1"
           delay={0.25}
         />
@@ -55,7 +53,7 @@ const Hero = () => {
           <FadeIn delay={1.05} className="flex items-center gap-4">
             <button
               data-testid="hero-cta-button"
-              onClick={() => navigate("/contact")}
+              onClick={() => window.open(CONTACT.whatsapp, "_blank", "noopener,noreferrer")}
               className="group inline-flex items-center gap-3 bg-[#0055FF] px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300"
             >
               Start a conversation
@@ -119,14 +117,14 @@ const Approach = () => (
 );
 
 const Capabilities = () => (
-  <section data-testid="capabilities-section" className="mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-32 border-t border-white/10">
-    <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 md:mb-24">
+  <section data-testid="capabilities-section" className="mx-auto max-w-[1600px] px-6 md:px-10 py-12 md:py-24 border-t border-white/10">
+    <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-14">
       <div>
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Core Capabilities</p>
-        <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">What we do<br />exceptionally well</h2>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#0055FF]">Core Capabilities</p>
+        <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tighter">What we do<br />exceptionally well</h2>
       </div>
       <p className="max-w-sm text-sm leading-relaxed text-white/50">
-        Six practices, one integrated team. Every capability is delivered in-house — no hand-offs, no subcontractors.
+        Four practices, one integrated team. Every capability is delivered in-house — no hand-offs, no subcontractors.
       </p>
     </Reveal>
 
@@ -211,7 +209,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <Marquee items={SERVICES.map((s) => s.title)} />
+      <Marquee items={SERVICES.flatMap((s) => [s.title, "OnusMinds"])} />
       <Approach />
       <Capabilities />
       <ServicesIndex />

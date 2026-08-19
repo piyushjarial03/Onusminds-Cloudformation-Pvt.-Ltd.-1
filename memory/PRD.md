@@ -37,6 +37,8 @@ Expand the OnusMinds one-page site into a full multi-page corporate site using b
 - 2026-08-19: Real contacts applied — phone/WhatsApp +91 78077 22158 (wa.me/917807722158), email info@onusminds.com (site + lead notification inbox), LinkedIn icon button in footer linking to linkedin.com/company/onusminds-cloudformation-pvt-ltd, WhatsApp icon button with number
 - 2026-08-19: Floating WhatsApp chat button on all pages (bottom-right, expands "Chat with us" on hover, opens wa.me/917807722158); toasts moved to bottom-left
 - 2026-08-19: Mobile decongestion pass — reduced section padding on phones (py-16 vs py-28+), smaller hero top offset, 6rem watermark numerals, stacked About stats, compact WhatsApp bubble, hero headline 9vw and footer CTA 11vw so long words never clip; verified zero horizontal overflow at 390px on Home, About, Service, Contact + mobile nav accordion
+- 2026-08-19: Visual edits — hero kicker "IT Services & Consulting / Digital Marketing", hero headline changed to "Cloud Infrastructure. Scale with ease, perform with speed. Built to grow with the cloud." (6 short kinetic lines, lg 6vw), hero CTA opens WhatsApp with pre-filled message, "OnusMinds" interleaved in marquee, Quick Message form removed from Contact, Core Capabilities tightened
+- 2026-08-19: Service catalog reduced to the 4 real offerings with user's exact copy: Infrastructure & Cloud, Managed IT Support, SEO & Content Strategy, Paid Media & Performance (removed IT Services & Consulting and Digital Marketing); nav, footer, marquee, services index, request form select and capability grid all driven from this list
 
 ## Backlog
 - P0: Swap real copy/contacts; confirm notification inbox
