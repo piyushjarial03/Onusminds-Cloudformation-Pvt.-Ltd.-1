@@ -25,16 +25,17 @@ export default function AdminDashboard() {
   if (user === false) return <Navigate to="/admin/login" replace />;
 
   const Active = { dashboard: DashboardView, editor: SiteEditorView, requests: RequestsView, team: TeamView, news: NewsView }[view];
+  const items = ITEMS.filter((i) => user.role === "owner" || !["editor", "team"].includes(i.id));
 
   return (
     <main data-testid="admin-dashboard" className="min-h-screen pt-[72px]">
       <aside className="hidden lg:flex fixed left-0 top-[72px] bottom-0 z-40 w-64 flex-col border-r border-white/10 bg-[#0A0A0A]">
         <div className="p-6 border-b border-white/10">
           <p className="text-[10px] uppercase tracking-[0.3em] text-white/40">Control room</p>
-          <p className="mt-1 text-sm text-[#6b9aff] capitalize">{user.role}</p>
+          <p className="mt-1 text-sm text-[#6b9aff]">{{ owner: "Owner", sr_admin: "Sr. Admin", admin: "Admin" }[user.role] || user.role}</p>
         </div>
         <nav className="flex-1 py-4">
-          {ITEMS.map((item) => (
+          {items.map((item) => (
             <button
               key={item.id}
               data-testid={`admin-nav-${item.id}`}
@@ -61,7 +62,7 @@ export default function AdminDashboard() {
       </aside>
 
       <div className="lg:hidden sticky top-[72px] z-40 flex items-center gap-1 overflow-x-auto border-b border-white/10 bg-[#0A0A0A] px-3 py-2">
-        {ITEMS.map((item) => (
+        {items.map((item) => (
           <button
             key={item.id}
             data-testid={`admin-nav-mobile-${item.id}`}

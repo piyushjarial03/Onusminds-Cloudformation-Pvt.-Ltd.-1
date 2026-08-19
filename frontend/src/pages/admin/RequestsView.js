@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { X, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { api, formatApiError } from "../../lib/api";
+import { useAuth } from "../../context/AuthContext";
 import { StatusPill } from "./DashboardView";
 
 const STATUSES = ["new", "in_progress", "completed"];
 const STATUS_BTNS = { new: "Mark new", in_progress: "Mark in progress", completed: "Mark completed" };
 
 export default function RequestsView() {
+  const { user } = useAuth();
+  const canManage = !!user && ["owner", "sr_admin"].includes(user.role);
   const [leads, setLeads] = useState(null);
   const [active, setActive] = useState(null);
 
@@ -99,25 +102,29 @@ export default function RequestsView() {
             </dl>
             <p className="mt-5 border border-white/10 bg-white/[0.03] p-4 text-sm leading-relaxed text-white/70">{active.message}</p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {STATUSES.map((s) => (
+              {canManage &&
+                STATUSES.map((s) => (
+                  <button
+                    key={s}
+                    data-testid={`lead-status-${s}`}
+                    onClick={() => setStatus(active, s)}
+                    className={`px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors ${
+                      (active.status || "new") === s ? "bg-[#0055FF] text-white" : "border border-white/15 text-white/60 hover:border-white/50"
+                    }`}
+                  >
+                    {STATUS_BTNS[s]}
+                  </button>
+                ))}
+              {canManage && (
                 <button
-                  key={s}
-                  data-testid={`lead-status-${s}`}
-                  onClick={() => setStatus(active, s)}
-                  className={`px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors ${
-                    (active.status || "new") === s ? "bg-[#0055FF] text-white" : "border border-white/15 text-white/60 hover:border-white/50"
-                  }`}
+                  data-testid="lead-modal-delete"
+                  onClick={() => remove(active)}
+                  className="ml-auto inline-flex items-center gap-2 border border-white/15 px-4 py-2 text-xs uppercase tracking-widest text-red-400 hover:border-red-500"
                 >
-                  {STATUS_BTNS[s]}
+                  <Trash2 className="h-3.5 w-3.5" /> Delete
                 </button>
-              ))}
-              <button
-                data-testid="lead-modal-delete"
-                onClick={() => remove(active)}
-                className="ml-auto inline-flex items-center gap-2 border border-white/15 px-4 py-2 text-xs uppercase tracking-widest text-red-400 hover:border-red-500"
-              >
-                <Trash2 className="h-3.5 w-3.5" /> Delete
-              </button>
+              )}
+              {!canManage && <p className="text-xs text-white/30 uppercase tracking-widest">View only — Sr. Admin or Owner can manage requests</p>}
             </div>
           </div>
         </div>

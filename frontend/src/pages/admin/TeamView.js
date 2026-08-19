@@ -69,8 +69,8 @@ export default function TeamView() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-[#0055FF]/15 text-[#6b9aff] capitalize">
-                    {u.role}
+                  <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-[#0055FF]/15 text-[#6b9aff]">
+                    {{ owner: "Owner", sr_admin: "Sr. Admin", admin: "Admin" }[u.role] || u.role}
                   </span>
                   <button data-testid={`team-remove-${u.id}`} onClick={() => remove(u)} aria-label={`Remove ${u.name}`} className="p-1.5 border border-white/15 text-white/40 hover:text-red-400 hover:border-red-500 transition-colors">
                     <X className="h-3.5 w-3.5" />
@@ -99,8 +99,9 @@ export default function TeamView() {
             <div>
               <label className={labelCls}>Role</label>
               <select data-testid="team-role" value={form.role} onChange={set("role")} className={inputCls}>
-                <option value="admin">Admin</option>
-                <option value="owner">Owner</option>
+                <option value="admin">Admin — dashboard &amp; news only</option>
+                <option value="sr_admin">Sr. Admin — dashboard, requests &amp; news</option>
+                <option value="owner">Owner — full access</option>
               </select>
             </div>
           </div>

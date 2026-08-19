@@ -208,8 +208,22 @@ async def get_current_admin(request: Request) -> dict:
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
     user = await db.users.find_one({"id": payload["sub"]}, {"_id": 0, "password_hash": 0})
-    if not user or user.get("role") not in ("admin", "owner"):
+    if not user or user.get("role") not in ("admin", "owner", "sr_admin"):
         raise HTTPException(status_code=401, detail="Not authorized")
+    return user
+
+
+async def get_owner(request: Request) -> dict:
+    user = await get_current_admin(request)
+    if user.get("role") != "owner":
+        raise HTTPException(status_code=403, detail="Owner access required")
+    return user
+
+
+async def get_request_manager(request: Request) -> dict:
+    user = await get_current_admin(request)
+    if user.get("role") not in ("owner", "sr_admin"):
+        raise HTTPException(status_code=403, detail="Insufficient access")
     return user
 
 
@@ -320,7 +334,7 @@ async def list_leads(admin=Depends(get_current_admin)):
 
 
 @api_router.patch("/admin/leads/{lead_id}")
-async def update_lead(lead_id: str, payload: dict, admin=Depends(get_current_admin)):
+async def update_lead(lead_id: str, payload: dict, admin=Depends(get_request_manager)):
     update = {}
     if payload.get("status") in ("new", "in_progress", "completed"):
         update["status"] = payload["status"]
@@ -333,7 +347,7 @@ async def update_lead(lead_id: str, payload: dict, admin=Depends(get_current_adm
 
 
 @api_router.delete("/admin/leads/{lead_id}")
-async def delete_lead(lead_id: str, admin=Depends(get_current_admin)):
+async def delete_lead(lead_id: str, admin=Depends(get_request_manager)):
     await db.leads.delete_one({"id": lead_id})
     return {"status": "ok"}
 
@@ -465,7 +479,7 @@ async def get_content():
 
 
 @api_router.put("/admin/content")
-async def put_content(payload: dict, admin=Depends(get_current_admin)):
+async def put_content(payload: dict, admin=Depends(get_owner)):
     clean = {k: str(v) for k, v in payload.items() if k in DEFAULT_CONTENT}
     await db.site_content.update_one({"key": "main"}, {"$set": {"data": clean}}, upsert=True)
     merged = dict(DEFAULT_CONTENT)
@@ -533,7 +547,7 @@ async def admin_list_services(admin=Depends(get_current_admin)):
 
 
 @api_router.put("/admin/services/bulk")
-async def bulk_services(payload: dict, admin=Depends(get_current_admin)):
+async def bulk_services(payload: dict, admin=Depends(get_owner)):
     items = payload.get("services", [])
     kept_ids = []
     for i, item in enumerate(items):
@@ -590,12 +604,12 @@ class TeamCreate(BaseModel):
 
 
 @api_router.get("/admin/team")
-async def list_team(admin=Depends(get_current_admin)):
+async def list_team(admin=Depends(get_owner)):
     return await db.users.find({}, {"_id": 0, "password_hash": 0}).to_list(100)
 
 
 @api_router.post("/admin/team")
-async def create_team_member(payload: TeamCreate, admin=Depends(get_current_admin)):
+async def create_team_member(payload: TeamCreate, admin=Depends(get_owner)):
     email = payload.email.lower().strip()
     if await db.users.find_one({"email": email}):
         raise HTTPException(status_code=409, detail="An account with this email already exists")
@@ -605,7 +619,7 @@ async def create_team_member(payload: TeamCreate, admin=Depends(get_current_admi
         "id": str(uuid.uuid4()),
         "email": email,
         "name": payload.name.strip(),
-        "role": payload.role if payload.role in ("admin", "owner") else "admin",
+        "role": payload.role if payload.role in ("admin", "owner", "sr_admin") else "admin",
         "password_hash": hash_password(payload.password),
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -615,7 +629,7 @@ async def create_team_member(payload: TeamCreate, admin=Depends(get_current_admi
 
 
 @api_router.delete("/admin/team/{user_id}")
-async def delete_team_member(user_id: str, admin=Depends(get_current_admin)):
+async def delete_team_member(user_id: str, admin=Depends(get_owner)):
     if user_id == admin["id"]:
         raise HTTPException(status_code=400, detail="You cannot remove your own account")
     await db.users.delete_one({"id": user_id})

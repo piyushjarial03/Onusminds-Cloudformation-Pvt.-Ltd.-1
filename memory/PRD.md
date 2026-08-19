@@ -43,6 +43,7 @@ Expand the OnusMinds one-page site into a full multi-page corporate site using b
 - KNOWN ISSUE: email notifications to info@onusminds.com rejected by mail service ("Undeliverable recipient" — mailbox unverifiable). Leads still save to DB/admin. Needs a working inbox address.
 - 2026-08-19: Full admin panel v2 (dark theme, sidebar): Dashboard (stat cards + recent requests), Site editor (logo upload, all hero/overview/capabilities/request/contact/nav/footer text, services list editor with add/remove/visible + Publish), Requests (inbox + detail modal + New/In Progress/Completed statuses), Team access (list/create/remove admin accounts), News & Media CMS. Site now reads content + services from DB via SiteContext (public /api/content + /api/services), so publishing in the editor updates the live site instantly
 - 2026-08-19: Admin login changed to piyushjarial0307@gmail.com (owner role); old admin@onusminds.com removed; backend accepts owner+admin roles; form service options now static list: IT Services & Consulting, Digital Marketing, Website Development, Branding, Other
+- 2026-08-19: Three-role RBAC: owner (everything incl. Site editor + Team access), sr_admin (Dashboard, Requests manage, News edit — no site editor/team), admin (Dashboard view, Requests view-only, News edit). Enforced in backend (get_owner/get_request_manager dependencies) and sidebar hides restricted sections. Admin shield icon removed from navbar per user request (entry via footer ADMIN link or /admin)
 
 ## Backlog
 - P0: Swap real copy/contacts; confirm notification inbox

@@ -113,15 +113,6 @@ export const Navigation = () => {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            data-testid="nav-admin-icon"
-            to="/admin"
-            aria-label="Admin panel sign in"
-            title="Admin panel"
-            className="inline-flex h-10 w-10 items-center justify-center border border-white/15 text-white/50 hover:text-white hover:border-[#0055FF] hover:bg-[#0055FF]/10 transition-colors duration-300"
-          >
-            <ShieldCheck className="h-4 w-4" />
-          </Link>
           <button
             data-testid="nav-cta-button"
             onClick={() => navigate("/contact")}
